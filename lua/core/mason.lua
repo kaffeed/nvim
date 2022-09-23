@@ -12,7 +12,8 @@ nnoremap('[d', vim.diagnostic.goto_prev, opts)
 nnoremap(']d', vim.diagnostic.goto_next, opts)
 nnoremap('<space>cD', vim.diagnostic.setloclist, opts)
 
-M.on_attach_keybindings = function(_, bufnr)
+M.on_attach_keybindings = function(client, bufnr)
+	require("nvim-navic").attach(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	nnoremap("gd", vim.lsp.buf.definition, bufopts)
 	nnoremap("gD", vim.lsp.buf.declaration, bufopts)
@@ -29,6 +30,7 @@ M.on_attach_keybindings = function(_, bufnr)
 	nnoremap('<leader>ca', vim.lsp.buf.code_action, bufopts)
 	nnoremap("<leader>cs", vim.lsp.buf.workspace_symbol, bufopts)
 	nnoremap("<leader>vd", vim.diagnostic.open_float, bufopts)
+	nnoremap("<leader>cf", function() vim.lsp.buf.format({async = true}) end, bufopts)
 end
 
 local on_attach = function(client, bufnr)
