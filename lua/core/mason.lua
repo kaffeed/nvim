@@ -1,11 +1,9 @@
+-- TODO: Clean all this shit up
 local M = {}
 
 local Remap = require('core.keymap')
 
 local nnoremap = Remap.nnoremap
-local vnoremap = Remap.vnoremap
-
-local lsp = vim.lsp
 
 -- local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local opts = { noremap = true, silent = true }
@@ -14,7 +12,7 @@ nnoremap('[d', vim.diagnostic.goto_prev, opts)
 nnoremap(']d', vim.diagnostic.goto_next, opts)
 nnoremap('<space>cD', vim.diagnostic.setloclist, opts)
 
-M.on_attach_keybindings = function(client, bufnr) 
+M.on_attach_keybindings = function(_, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	nnoremap("gd", vim.lsp.buf.definition, bufopts)
 	nnoremap("gD", vim.lsp.buf.declaration, bufopts)
@@ -102,8 +100,8 @@ M.servers = {
     -- ["lemminx"] = config({
     --     filetypes = { "xml", "xsd", "xsl", "xslt", "svg", "xaml" }
     -- }),
-    ["pyright"] = config{},
-    ["jdtls"] = config()
+    ["pyright"] = config(),
+    ["jdtls"] = config(),
 }
 
 M.setup = function()

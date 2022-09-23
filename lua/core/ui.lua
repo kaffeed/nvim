@@ -1,4 +1,2 @@
-vim.g.catppuccin_flavor = "macchiato"
-vim.cmd [[colorscheme catppuccin]]
-
+vim.cmd [[colorscheme tokyonight-storm]]
 vim.o.relativenumber = true

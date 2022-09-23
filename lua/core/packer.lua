@@ -118,6 +118,18 @@ return require('packer').startup(function(use)
 	}
 
 	use {
+		"folke/trouble.nvim",
+		  requires = "kyazdani42/nvim-web-devicons",
+		  config = function()
+		    require("trouble").setup {
+		      -- your configuration comes here
+		      -- or leave it empty to use the default settings
+		      -- refer to the configuration section below
+		    }
+		  end
+	}
+
+	use {
 	  "folke/todo-comments.nvim",
 	  requires = "nvim-lua/plenary.nvim",
 	  config = function()
@@ -127,6 +139,30 @@ return require('packer').startup(function(use)
 	      -- refer to the configuration section below
 	    }
 	  end
+	}
+
+	use {
+		"folke/twilight.nvim",
+		config = function() 
+			require("twilight").setup()
+		end
+	}
+
+	use {
+		"folke/tokyonight.nvim"
+	}
+
+	use { "anuvyklack/windows.nvim",
+	   requires = {
+	      "anuvyklack/middleclass",
+	      "anuvyklack/animation.nvim"
+	   },
+	   config = function()
+	      vim.o.winwidth = 10
+	      vim.o.winminwidth = 10
+	      vim.o.equalalways = false
+	      require('windows').setup()
+	   end
 	}
 
 	use("nvim-treesitter/playground")
@@ -157,9 +193,9 @@ return require('packer').startup(function(use)
 			'kyazdani42/nvim-web-devicons', -- optional, for file icons
 		},
 		config = function()
-			require('lualine').setup{
+			require('lualine').setup {
 				options = {
-					theme = 'catppuccin'
+					theme = 'tokyonight'
 				}
 			}
 		end

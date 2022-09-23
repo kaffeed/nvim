@@ -1,7 +1,9 @@
 require('core.packer')
 require('core.mason').setup()
-require('core.ui')
 
+require('core.ui')
+require('core.autocommands')
+require('core.set')
 vim.g.mapleader = " "
 vim.opt.shell = "pwsh.exe -NoLogo"
 vim.opt.shellcmdflag =
