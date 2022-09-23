@@ -10,7 +10,7 @@ local opts = { noremap = true, silent = true }
 nnoremap('<space>cd', vim.diagnostic.open_float, opts)
 nnoremap('[d', vim.diagnostic.goto_prev, opts)
 nnoremap(']d', vim.diagnostic.goto_next, opts)
-nnoremap('<space>cD', vim.diagnostic.setloclist, opts)
+nnoremap('<space>cD', '<cmd>Trouble document_diagnostics <CR>', opts)
 
 M.on_attach_keybindings = function(client, bufnr)
     require('nvim-navic').attach(client, bufnr)
@@ -61,7 +61,9 @@ local luadev = require('lua-dev').setup({
     lspconfig = {
         cmd = { 'lua-language-server' },
         on_attach = on_attach,
-        capabilities = capabilities,
+        capabilities = require('cmp_nvim_lsp').update_capabilities(
+            vim.lsp.protocol.make_client_capabilities()
+        ),
     },
 })
 

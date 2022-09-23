@@ -132,6 +132,13 @@ return require('packer').startup(function(use)
     })
 
     use({
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        requires = {
+            'nvim-treesitter/nvim-treesitter',
+        },
+    })
+
+    use({
         'folke/trouble.nvim',
         requires = 'kyazdani42/nvim-web-devicons',
         config = function()
@@ -330,13 +337,6 @@ return require('packer').startup(function(use)
             require('lspsaga').setup({
                 use_saga_diagnostic_sign = true,
             })
-        end,
-    })
-
-    use({
-        'karb94/neoscroll.nvim',
-        config = function()
-            require('neoscroll').setup()
         end,
     })
 end)

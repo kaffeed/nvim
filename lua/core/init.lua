@@ -1,3 +1,4 @@
+require('core.globals')
 require('core.packer')
 require('core.mason')
 require('core.ui')
