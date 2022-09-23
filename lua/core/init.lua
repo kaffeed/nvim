@@ -1,5 +1,5 @@
 require('core.packer')
-require('core.mason').setup()
+require('core.mason')
 require('core.ui')
 require('core.autocommands')
 require('core.set')

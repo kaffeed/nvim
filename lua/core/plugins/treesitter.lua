@@ -1,5 +1,5 @@
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = "all",
+require('nvim-treesitter.configs').setup({
+    ensure_installed = 'all',
     --
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,
@@ -8,7 +8,7 @@ require'nvim-treesitter.configs'.setup {
     auto_install = true,
 
     -- List of parsers to ignore installing (for "all")
-    ignore_install = { "phpdoc", "php" },
+    ignore_install = { 'phpdoc', 'php' },
 
     highlight = {
         -- `false` will disable the whole extension
@@ -20,4 +20,11 @@ require'nvim-treesitter.configs'.setup {
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
     },
-}
+    rainbow = {
+        enable = true,
+        extended_mode = true,
+    },
+    autotag = {
+        enable = true,
+    },
+})
