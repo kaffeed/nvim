@@ -339,4 +339,33 @@ return require('packer').startup(function(use)
             })
         end,
     })
+
+    use({
+        'sindrets/diffview.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+        },
+    })
+
+    use({
+        'lukas-reineke/indent-blankline.nvim',
+        config = function()
+            require('indent_blankline').setup({
+                show_current_context = true,
+                show_current_context_start = true,
+                show_end_of_line = true,
+            })
+        end,
+    })
+
+    use({
+        'lewis6991/impatient.nvim',
+    })
+
+    use({
+        'phaazon/hop.nvim',
+        config = function()
+            require('hop').setup({ keys = 'etovxqpdygfblzhckisuran' })
+        end,
+    })
 end)

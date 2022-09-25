@@ -1,4 +1,4 @@
 *.sh
-./plugin/
+./plugin/**
 
 plugin

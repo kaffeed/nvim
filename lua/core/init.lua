@@ -1,3 +1,4 @@
+require('impatient')
 require('core.globals')
 require('core.packer')
 require('core.mason')

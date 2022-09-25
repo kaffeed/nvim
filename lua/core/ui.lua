@@ -7,3 +7,6 @@ for type, icon in pairs(signs) do
     local hl = 'LspDiagnosticsSign' .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
+
+vim.opt.list = true
+vim.opt.listchars:append('eol:↴')
