@@ -110,11 +110,21 @@ M.servers = {
     -- }),
     ['pyright'] = config(),
     ['jdtls'] = config(),
+    ['angularls'] = config(),
+    ['gopls'] = config(),
 }
+
+local get_keys = function(t)
+    local keys = {}
+    for key, value in pairs(t) do
+        table.insert(keys, key)
+    end
+    return keys
+end
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = M.servers,
+    ensure_installed = get_keys(M.servers),
 })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
