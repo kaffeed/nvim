@@ -1,4 +1,3 @@
 *.sh
-./plugin/**
 
-plugin
+/plugin

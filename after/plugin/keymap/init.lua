@@ -4,7 +4,7 @@ local nnoremap = Remap.nnoremap
 
 local opts = { silent = true, noremap = true }
 
-nnoremap('<C-n>', ':NvimTreeToggle<CR>', opts)
+nnoremap('<C-l>', ':NvimTreeToggle<CR>', opts)
 nnoremap('Y', 'y$')
 
 nnoremap('<C-x>', ':ToggleTerm direction=float<CR>', opts)
