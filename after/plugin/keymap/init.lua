@@ -8,7 +8,7 @@ nnoremap('<C-l>', ':NvimTreeToggle<CR>', opts)
 nnoremap('Y', 'y$')
 
 nnoremap('<C-x>', ':ToggleTerm direction=float<CR>', opts)
-nnoremap('<leader>gg', ':LazyGit<CR>', opts)
+nnoremap('<leader>gg', ':Neogit<CR>', opts)
 
 nnoremap('<leader>tt', ':TodoTrouble<CR>', opts)
 

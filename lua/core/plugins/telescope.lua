@@ -12,22 +12,22 @@ M.setup = function()
         },
         pickers = {
             find_files = {
-                theme = 'ivy',
+                theme = 'dropdown',
             },
             buffers = {
-                theme = 'ivy',
+                theme = 'dropdown',
             },
             oldfiles = {
-                theme = 'ivy',
+                theme = 'dropdown',
             },
             git_branches = {
-                theme = 'ivy',
+                theme = 'dropdown',
             },
             git_status = {
-                theme = 'ivy',
+                theme = 'dropdown',
             },
             grep_string = {
-                theme = 'ivy',
+                theme = 'dropdown',
             },
         },
         extensions = {

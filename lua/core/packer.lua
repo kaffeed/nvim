@@ -31,12 +31,6 @@ return require('packer').startup(function(use)
     }) -- Configurations for Nvim LSP
 
     use({ 'onsails/lspkind.nvim' })
-    use({
-        'j-hui/fidget.nvim',
-        config = function()
-            require('fidget').setup()
-        end,
-    })
 
     use({
         'jose-elias-alvarez/null-ls.nvim',
@@ -92,9 +86,12 @@ return require('packer').startup(function(use)
         end,
     })
 
+    -- CMP
     use('hrsh7th/cmp-nvim-lsp')
     use('hrsh7th/cmp-buffer')
+    use('hrsh7th/cmp-path')
     use('hrsh7th/nvim-cmp')
+
     use({
         'numToStr/Comment.nvim',
         config = function()
@@ -211,12 +208,20 @@ return require('packer').startup(function(use)
                     lualine_c = {
                         { navic.get_location, cond = navic.is_available },
                     },
+                    lualine_x = {
+                        'lsp_progress',
+                    },
                 },
                 options = {
                     theme = 'tokyonight',
                 },
             })
         end,
+    })
+
+    use({
+        'arkav/lualine-lsp-progress',
+        requires = 'nvim-lualine/lualine.nvim',
     })
 
     use({
@@ -313,7 +318,13 @@ return require('packer').startup(function(use)
 
     use({ 'gpanders/editorconfig.nvim' })
 
-    use({ 'kdheepak/lazygit.nvim' })
+    -- use({ 'kdheepak/lazygit.nvim' })
+    use({
+        'TimUntersberger/neogit',
+        config = function()
+            require('neogit').setup()
+        end,
+    })
 
     use({
         'SmiteshP/nvim-navic',

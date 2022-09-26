@@ -105,17 +105,10 @@ M.servers = {
         -- true
         analyze_open_documents_only = false,
     }),
-    -- ["lemminx"] = config({
-    --     filetypes = { "xml", "xsd", "xsl", "xslt", "svg", "xaml" }
-    -- }),
+    ['lemminx'] = config({
+        filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'xaml' },
+    }),
     ['pyright'] = config(),
-    -- ['jdtls'] = config({
-    --     root_dir = require('lspconfig').util.root_pattern(
-    --         '.git',
-    --         'pom.xml',
-    --         'build.xml'
-    --     ),
-    -- }),
     ['angularls'] = config(),
 }
 

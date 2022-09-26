@@ -19,8 +19,6 @@ end
 local mason_data_dir = vim.fn.stdpath('data') .. '/mason'
 JDTLS_PATH = mason_data_dir .. '/packages/jdtls'
 
-vim.notify('Mason directory: ' .. mason_data_dir)
-
 -- Determine OS
 local home = os.getenv('HOME')
 WORKSPACE_PATH = home .. '/workspace/'
@@ -46,7 +44,6 @@ extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
 local workspace_dir = WORKSPACE_PATH .. project_name
--- vim.notify(P(workspace_dir))
 
 -- TODO: Testing
 
@@ -74,25 +71,6 @@ local workspace_dir = WORKSPACE_PATH .. project_name
 --     )
 -- end
 
--- for _, value in
---     pairs(
---         vim.fn.glob(
---             home
---                 .. JDTLS_PATH
---                 .. '\\plugins\\org.eclipse.equinox.launcher_*.jar'
---         )
---     )
--- do
---     vim.notify('Values: ' .. value)
--- end
-
--- vim.fn.glob(
---
---     home
---         .. JDTLS_PATH
---         .. '\\plugins\\org.eclipse.equinox.launcher_*.jar'
--- )[1]
-
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
     -- The command that starts the language server
@@ -107,7 +85,6 @@ local config = {
         '-Declipse.application=org.eclipse.jdt.ls.core.id1',
         '-Dosgi.bundles.defaultStartLevel=4',
         '-Declipse.product=org.eclipse.jdt.ls.core.product',
-        -- '-Dosgi.bundles=org.eclipse.equinox.common@2:start,org.eclipse.update.configurator@3:start,org.eclipse.core.runtime@',
         '-Dlog.protocol=true',
         '-Dlog.level=ALL',
         '-javaagent:' .. JDTLS_PATH .. '/lombok.jar',
@@ -306,6 +283,8 @@ local vnoremap = Remap.vnoremap
 --     },
 -- }
 
+-- TODO: Which Key support!
+--
 local opts = { silent = true, noremap = true }
 nnoremap('<leader>co', require('jdtls').organize_imports, opts)
 nnoremap('<leader>cev', require('jdtls').extract_variable, opts)
