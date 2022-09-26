@@ -404,16 +404,4 @@ return require('packer').startup(function(use)
     use({
         'mfussenegger/nvim-jdtls',
     })
-
-
-    use({
-	    'akinsho/bufferline.nvim',
-	    requires = { 'kyazdani42/nvim-web-devicons' },
-	    config = function ()
-		    require('bufferline').setup({
-			    mode = "tabs"
-		    })
-	    end
-    })
-
 end)
