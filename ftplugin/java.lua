@@ -16,18 +16,20 @@ if not status then
     return
 end
 
+local mason_data_dir = vim.fn.stdpath('data') .. '/mason'
+JDTLS_PATH = mason_data_dir .. '/packages/jdtls'
+
+vim.notify('Mason directory: ' .. mason_data_dir)
+
 -- Determine OS
 local home = os.getenv('HOME')
-vim.notify('home is ' .. home)
+WORKSPACE_PATH = home .. '/workspace/'
+
 if vim.fn.has('mac') == 1 then
-    WORKSPACE_PATH = home .. '/workspace/'
     CONFIG = 'mac'
 elseif vim.fn.has('unix') == 1 then
-    WORKSPACE_PATH = home .. '/workspace/'
     CONFIG = 'linux'
 else
-    WORKSPACE_PATH = home .. '\\workspace\\'
-    JDTLS_PATH = home .. '\\AppData\\Local\\nvim-data\\mason\\packages\\jdtls'
     CONFIG = 'win'
 end
 
@@ -119,7 +121,7 @@ local config = {
         -- 💀
         '-jar',
         vim.fn.glob(
-            JDTLS_PATH .. '\\plugins\\org.eclipse.equinox.launcher_*.jar'
+            JDTLS_PATH .. '/plugins/org.eclipse.equinox.launcher_*.jar'
         ),
         -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
         -- Must point to the                                                     Change this to
@@ -127,7 +129,7 @@ local config = {
 
         -- 💀
         '-configuration',
-        JDTLS_PATH .. '\\config_' .. CONFIG,
+        JDTLS_PATH .. '/config_' .. CONFIG,
         -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
         -- Must point to the                      Change to one of `linux`, `win` or `mac`
         -- eclipse.jdt.ls installation            Depending on your system.
