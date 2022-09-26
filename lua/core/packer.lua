@@ -318,11 +318,26 @@ return require('packer').startup(function(use)
 
     use({ 'gpanders/editorconfig.nvim' })
 
+    use({
+        'sindrets/diffview.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim',
+        },
+    })
+
     -- use({ 'kdheepak/lazygit.nvim' })
     use({
         'TimUntersberger/neogit',
+        requires = {
+            'nvim-lua/plenary.nvim',
+            'sindrets/diffview.nvim',
+        },
         config = function()
-            require('neogit').setup()
+            require('neogit').setup({
+                integrations = {
+                    diffview = true,
+                },
+            })
         end,
     })
 
@@ -348,13 +363,6 @@ return require('packer').startup(function(use)
                 use_saga_diagnostic_sign = true,
             })
         end,
-    })
-
-    use({
-        'sindrets/diffview.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim',
-        },
     })
 
     use({
