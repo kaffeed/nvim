@@ -35,7 +35,7 @@ M.on_attach_keybindings = function(client, bufnr)
     end, bufopts)
 end
 
-local on_attach = function(client, bufnr)
+M.on_attach = function(client, bufnr)
     M.on_attach_keybindings(client, bufnr)
 end
 
@@ -44,7 +44,7 @@ local function config(_config)
         capabilities = require('cmp_nvim_lsp').update_capabilities(
             vim.lsp.protocol.make_client_capabilities()
         ),
-        on_attach = on_attach,
+        on_attach = M.on_attach,
     }, _config or {})
 end
 
@@ -60,7 +60,7 @@ local luadev = require('lua-dev').setup({
     -- pass any additional options that will be merged in the final lsp config
     lspconfig = {
         cmd = { 'lua-language-server' },
-        on_attach = on_attach,
+        on_attach = M.on_attach,
         capabilities = require('cmp_nvim_lsp').update_capabilities(
             vim.lsp.protocol.make_client_capabilities()
         ),
@@ -69,7 +69,7 @@ local luadev = require('lua-dev').setup({
 
 M.servers = {
     ['sumneko_lua'] = luadev,
-    -- ["rust_analyzer"] = config({}),
+    -- ["rust_analyzer"] = config({}), NOTE: configured in rust-tools
     ['gopls'] = config({}),
     ['omnisharp'] = config({
         enable_editorconfig_support = true,
@@ -109,9 +109,14 @@ M.servers = {
     --     filetypes = { "xml", "xsd", "xsl", "xslt", "svg", "xaml" }
     -- }),
     ['pyright'] = config(),
-    ['jdtls'] = config(),
+    -- ['jdtls'] = config({
+    --     root_dir = require('lspconfig').util.root_pattern(
+    --         '.git',
+    --         'pom.xml',
+    --         'build.xml'
+    --     ),
+    -- }),
     ['angularls'] = config(),
-    ['gopls'] = config(),
 }
 
 local get_keys = function(t)

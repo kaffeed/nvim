@@ -42,7 +42,6 @@ return require('packer').startup(function(use)
         'jose-elias-alvarez/null-ls.nvim',
         config = function()
             local nls = require('null-ls')
-            vim.notify('setting up null-ls')
             local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
             nls.setup({
                 sources = {
@@ -376,9 +375,13 @@ return require('packer').startup(function(use)
                 sort_by = 'case_sensitive',
                 view = {
                     adaptive_size = true,
-		    side = "right"
+                    side = 'right',
                 },
             })
         end,
+    })
+
+    use({
+        'mfussenegger/nvim-jdtls',
     })
 end)
