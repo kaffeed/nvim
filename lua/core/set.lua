@@ -1,6 +1,5 @@
 vim.g.mapleader = ' '
 
-
 if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
 	vim.opt.shell = 'pwsh.exe -NoLogo'
 
@@ -29,4 +28,4 @@ end
 
 
 vim.opt.relativenumber = true
-
+vim.opt.termguicolors = true
