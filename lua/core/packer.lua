@@ -13,6 +13,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.cmd([[packadd packer.nvim]])
 end
 
+-- TODO: This needs to be cleaned up some time as well, also maybe split up the configuration from here
+
 return require('packer').startup(function(use)
     -- configure packages here
     use('wbthomason/packer.nvim')
@@ -24,7 +26,6 @@ return require('packer').startup(function(use)
             'neovim/nvim-lspconfig',
             requires = {
                 'folke/lua-dev.nvim',
-                'RRethy/vim-illuminate',
                 'jose-elias-alvarez/null-ls.nvim',
             },
         },
@@ -155,13 +156,6 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'folke/twilight.nvim',
-        config = function()
-            require('twilight').setup()
-        end,
-    })
-
-    use({
         'folke/tokyonight.nvim',
         config = function()
             require('tokyonight').setup()
@@ -181,8 +175,6 @@ return require('packer').startup(function(use)
             require('windows').setup()
         end,
     })
-
-    use('nvim-treesitter/playground')
 
     use({
         'romgrk/nvim-treesitter-context',
@@ -244,40 +236,6 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'akinsho/toggleterm.nvim',
-        config = function()
-            require('toggleterm').setup({
-                start_in_insert = false,
-                insert_mappings = true, -- whether or not the open mapping applies in insert mode
-                terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
-                persist_size = true,
-                persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
-                float_opts = {
-                    border = 'curved',
-                },
-                winbar = {
-                    enabled = true,
-                },
-            })
-        end,
-    })
-
-    use({
-        'norcalli/nvim-colorizer.lua',
-        config = function()
-            require('colorizer').setup({ 'css', 'scss', 'html', 'javascript' }, {
-                RGB = true, -- #RGB hex codes
-                RRGGBB = true, -- #RRGGBB hex codes
-                RRGGBBAA = true, -- #RRGGBBAA hex codes
-                rgb_fn = true, -- CSS rgb() and rgba() functions
-                hsl_fn = true, -- CSS hsl() and hsla() functions
-                css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-                css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-            })
-        end,
-    })
-
-    use({
         'simrat39/rust-tools.nvim',
         config = function()
             local rt = require('rust-tools')
@@ -329,6 +287,9 @@ return require('packer').startup(function(use)
     -- use({ 'kdheepak/lazygit.nvim' })
     use({
         'TimUntersberger/neogit',
+	cmd = {
+		'Neogit'
+	},
         requires = {
             'nvim-lua/plenary.nvim',
             'sindrets/diffview.nvim',
@@ -390,6 +351,9 @@ return require('packer').startup(function(use)
 
     use({
         'kyazdani42/nvim-tree.lua',
+	cmd = {
+		'NvimTreeToggle',
+	},
         config = function()
             require('nvim-tree').setup({
                 sort_by = 'case_sensitive',
