@@ -34,3 +34,9 @@ nnoremap(
     "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>",
     opts
 )
+
+-- Diffview stuff
+nnoremap('<leader>gdo', ':DiffviewOpen<CR>', opts)
+nnoremap('<leader>gdc', ':DiffviewClose<CR>', opts)
+nnoremap('<leader>gdo', ':DiffviewFileHistory<CR>', opts)
+nnoremap('<leader>gdr', ':DiffviewRefresh<CR>', opts)
