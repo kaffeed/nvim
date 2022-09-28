@@ -28,6 +28,6 @@ require('nvim-treesitter.configs').setup({
         enable = true,
     },
     context_commentstring = {
-	    enable = true
+        enable = true,
     },
 })

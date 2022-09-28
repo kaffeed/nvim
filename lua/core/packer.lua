@@ -202,7 +202,6 @@ return require('packer').startup(function(use)
                     },
                     lualine_x = {
                         'lsp_progress',
-
                     },
                 },
                 options = {
@@ -287,9 +286,9 @@ return require('packer').startup(function(use)
     -- use({ 'kdheepak/lazygit.nvim' })
     use({
         'TimUntersberger/neogit',
-	cmd = {
-		'Neogit'
-	},
+        cmd = {
+            'Neogit',
+        },
         requires = {
             'nvim-lua/plenary.nvim',
             'sindrets/diffview.nvim',
@@ -351,9 +350,9 @@ return require('packer').startup(function(use)
 
     use({
         'kyazdani42/nvim-tree.lua',
-	cmd = {
-		'NvimTreeToggle',
-	},
+        cmd = {
+            'NvimTreeToggle',
+        },
         config = function()
             require('nvim-tree').setup({
                 sort_by = 'case_sensitive',
@@ -367,5 +366,12 @@ return require('packer').startup(function(use)
 
     use({
         'mfussenegger/nvim-jdtls',
+    })
+
+    use({
+        'simrat39/symbols-outline.nvim',
+        config = function()
+            require('symbols-outline').setup()
+        end,
     })
 end)

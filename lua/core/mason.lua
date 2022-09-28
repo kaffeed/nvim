@@ -28,7 +28,7 @@ M.on_attach_keybindings = function(client, bufnr)
     -- nnoremap("gs", ":Lspsaga signature_help<CR>", bufopts)
     nnoremap('crn', vim.lsp.buf.rename, bufopts)
     nnoremap('<leader>ca', vim.lsp.buf.code_action, bufopts)
-    nnoremap('<leader>cs', vim.lsp.buf.workspace_symbol, bufopts)
+    nnoremap('<leader>cs', ':SymbolsOutline<CR>', bufopts)
     nnoremap('<leader>vd', vim.diagnostic.open_float, bufopts)
     nnoremap('<leader>cf', function()
         vim.lsp.buf.format({ async = true })
@@ -66,6 +66,18 @@ local luadev = require('lua-dev').setup({
         ),
     },
 })
+
+local app_data = os.getenv('AppData')
+local angular_project_library_path = app_data .. '/npm/node_modules/'
+local angular_cmd = {
+    'node',
+    angular_project_library_path .. '/@angular/language-server',
+    '--stdio',
+    '--tsProbeLocations',
+    angular_project_library_path,
+    '--ngProbeLocations',
+    angular_project_library_path,
+}
 
 M.servers = {
     ['sumneko_lua'] = luadev,
@@ -109,7 +121,17 @@ M.servers = {
         filetypes = { 'xml', 'xsd', 'xsl', 'xslt', 'svg', 'xaml' },
     }),
     ['pyright'] = config(),
-    ['angularls'] = config(),
+    ['angularls'] = config({
+        filetypes = { 'html', 'typescriptreact', 'typescript.tsx' }, -- overwrite typescript because the ts language server works better
+        cmd = angular_cmd,
+        on_new_config = function(new_config, _)
+            -- P(new_config)
+            -- P(new_root_dir)
+            new_config.cmd = angular_cmd
+        end,
+    }),
+    ['tsserver'] = config(),
+    -- ['eslint'] = config(),
 }
 
 local get_keys = function(t)

@@ -7,7 +7,6 @@ local opts = { silent = true, noremap = true }
 nnoremap('<C-l>', ':NvimTreeToggle<CR>', opts)
 nnoremap('Y', 'y$')
 
-nnoremap('<C-x>', ':ToggleTerm direction=float<CR>', opts)
 nnoremap('<leader>gg', ':Neogit<CR>', opts)
 
 nnoremap('<leader>tt', ':TodoTrouble<CR>', opts)
@@ -40,3 +39,6 @@ nnoremap('<leader>gdo', ':DiffviewOpen<CR>', opts)
 nnoremap('<leader>gdc', ':DiffviewClose<CR>', opts)
 nnoremap('<leader>gdo', ':DiffviewFileHistory<CR>', opts)
 nnoremap('<leader>gdr', ':DiffviewRefresh<CR>', opts)
+
+-- SymbolsOutline
+-- nnoemap('<leader>cs', ':SymbolsOutline<CR>', opts)
