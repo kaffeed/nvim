@@ -12,27 +12,27 @@ M.setup = function()
         },
         pickers = {
             find_files = {
-                theme = 'dropdown',
+                theme = 'ivy',
             },
             buffers = {
-                theme = 'dropdown',
+                theme = 'ivy',
             },
             oldfiles = {
-                theme = 'dropdown',
+                theme = 'ivy',
             },
             git_branches = {
-                theme = 'dropdown',
+                theme = 'ivy',
             },
             git_status = {
-                theme = 'dropdown',
+                theme = 'ivy',
             },
             grep_string = {
-                theme = 'dropdown',
+                theme = 'ivy',
             },
         },
         extensions = {
             ['ui-select'] = {
-                require('telescope.themes').get_cursor(),
+                require('telescope.themes').get_ivy(),
             },
         },
     })
