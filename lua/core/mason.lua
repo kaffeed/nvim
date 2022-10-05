@@ -54,8 +54,9 @@ cmp.setup({
     sources = {
         { name = 'nvim_lsp' },
         -- For luasnip user.
+        { name = 'path' },
         { name = 'luasnip' },
-        { name = 'buffer' },
+        { name = 'buffer', keyword_length = 5 },
     },
 })
 
@@ -118,14 +119,13 @@ M.on_attach_keybindings = function(client, bufnr)
     nnoremap('gd', vim.lsp.buf.definition, bufopts)
     nnoremap('gD', vim.lsp.buf.declaration, bufopts)
     nnoremap('gi', vim.lsp.buf.implementation, bufopts)
-    nnoremap('K', '<cmd>Lspsaga hover_doc<CR>', bufopts)
+    nnoremap('K', vim.lsp.buf.hover, bufopts)
     nnoremap('<C-k>', vim.lsp.buf.signature_help, bufopts)
     nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     nnoremap('<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
     nnoremap('<leader>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
-    -- nnoremap("gs", ":Lspsaga signature_help<CR>", bufopts)
     nnoremap('crn', vim.lsp.buf.rename, bufopts)
     nnoremap('<leader>ca', vim.lsp.buf.code_action, bufopts)
     nnoremap('<leader>cs', ':SymbolsOutline<CR>', bufopts)
@@ -246,6 +246,8 @@ require('mason').setup({})
 require('mason-lspconfig').setup({
     ensure_installed = get_keys(M.servers),
 })
+
+vim.lsp.set_log_level('OFF')
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true

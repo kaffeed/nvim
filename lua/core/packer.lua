@@ -317,15 +317,6 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'kkharji/lspsaga.nvim',
-        config = function()
-            require('lspsaga').setup({
-                use_saga_diagnostic_sign = true,
-            })
-        end,
-    })
-
-    use({
         'lukas-reineke/indent-blankline.nvim',
         config = function()
             require('indent_blankline').setup({
@@ -396,22 +387,24 @@ return require('packer').startup(function(use)
         end,
     })
 
-    use({
-        'folke/noice.nvim',
-        event = 'VimEnter',
-        config = function()
-            require('noice').setup()
-        end,
-        requires = {
-            'MunifTanjim/nui.nvim',
-            'rcarriga/nvim-notify',
-        },
-    })
-
-    use({
-        'glacambre/firenvim',
-        run = function()
-            vim.fn['firenvim#install'](0)
-        end,
-    })
+    -- TODO: Evaluate if this is really necessary
+    -- use({
+    --     'folke/noice.nvim',
+    --     event = 'VimEnter',
+    --     config = function()
+    --         require('noice').setup()
+    --     end,
+    --     requires = {
+    --         'MunifTanjim/nui.nvim',
+    --         'rcarriga/nvim-notify',
+    --     },
+    -- })
+    --
+    -- use({
+    --     'glacambre/firenvim',
+    --     run = function()
+    --         vim.fn['firenvim#install'](0)
+    --     end,
+    -- })
+    -- use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
 end)
