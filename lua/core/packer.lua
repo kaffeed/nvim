@@ -41,7 +41,7 @@ return require('packer').startup(function(use)
             nls.setup({
                 sources = {
                     nls.builtins.formatting.stylua,
-                    nls.builtins.diagnostics.eslint,
+                    -- nls.builtins.diagnostics.eslint,
                     nls.builtins.completion.spell,
                 },
                 on_attach = function(client, bufnr)
@@ -91,6 +91,7 @@ return require('packer').startup(function(use)
     use('hrsh7th/cmp-nvim-lsp')
     use('hrsh7th/cmp-buffer')
     use('hrsh7th/cmp-path')
+    use('saadparwaiz1/cmp_luasnip')
     use('hrsh7th/nvim-cmp')
 
     use({
@@ -101,8 +102,6 @@ return require('packer').startup(function(use)
     })
 
     use('L3MON4D3/LuaSnip')
-
-    use('saadparwaiz1/cmp_luasnip')
 
     use('mbbill/undotree')
 
@@ -318,15 +317,6 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'kkharji/lspsaga.nvim',
-        config = function()
-            require('lspsaga').setup({
-                use_saga_diagnostic_sign = true,
-            })
-        end,
-    })
-
-    use({
         'lukas-reineke/indent-blankline.nvim',
         config = function()
             require('indent_blankline').setup({
@@ -396,4 +386,25 @@ return require('packer').startup(function(use)
             })
         end,
     })
+
+    -- TODO: Evaluate if this is really necessary
+    -- use({
+    --     'folke/noice.nvim',
+    --     event = 'VimEnter',
+    --     config = function()
+    --         require('noice').setup()
+    --     end,
+    --     requires = {
+    --         'MunifTanjim/nui.nvim',
+    --         'rcarriga/nvim-notify',
+    --     },
+    -- })
+    --
+    -- use({
+    --     'glacambre/firenvim',
+    --     run = function()
+    --         vim.fn['firenvim#install'](0)
+    --     end,
+    -- })
+    -- use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
 end)
