@@ -1,4 +1,4 @@
-vim.cmd([[colorscheme gruvbox]])
+vim.cmd([[colorscheme nord]])
 vim.o.relativenumber = true
 
 local signs =

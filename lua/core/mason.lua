@@ -181,8 +181,9 @@ local angular_cmd = {
 
 M.servers = {
     ['sumneko_lua'] = luadev,
+    ['sqlls'] = config(),
     -- ["rust_analyzer"] = config({}), NOTE: configured in rust-tools
-    ['gopls'] = config({}),
+    ['gopls'] = config(),
     ['omnisharp'] = config({
         enable_editorconfig_support = true,
 
