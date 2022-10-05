@@ -5,6 +5,106 @@ local Remap = require('core.keymap')
 
 local nnoremap = Remap.nnoremap
 
+-- cmp
+--
+local cmp = require('cmp')
+local source_mapping = {
+    buffer = '[Buffer]',
+    nvim_lsp = '[LSP]',
+    nvim_lua = '[Lua]',
+    path = '[Path]',
+}
+
+local lspkind = require('lspkind')
+
+cmp.setup({
+    experimental = {
+        ghost_text = true,
+    },
+    snippet = {
+        expand = function(args)
+            -- For `vsnip` user.
+            -- vim.fn["vsnip#anonymous"](args.body)
+
+            -- For `luasnip` user.
+            require('luasnip').lsp_expand(args.body)
+
+            -- For `ultisnips` user.
+            -- vim.fn["UltiSnips#Anon"](args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete({}),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+
+    formatting = {
+        format = function(entry, vim_item)
+            vim_item.kind = lspkind.presets.default[vim_item.kind]
+            local menu = source_mapping[entry.source.name]
+            vim_item.menu = menu
+            return vim_item
+        end,
+    },
+
+    sources = {
+        { name = 'nvim_lsp' },
+        -- For luasnip user.
+        { name = 'luasnip' },
+        { name = 'buffer' },
+    },
+})
+
+cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+        { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+        { name = 'buffer' },
+    }),
+})
+
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' },
+    },
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' },
+    }, {
+        { name = 'cmdline' },
+    }),
+})
+
+local snippets_paths = function()
+    local plugins = { 'friendly-snippets' }
+    local paths = {}
+    local path
+    local root_path = vim.env.HOME .. '/.vim/plugged/'
+    for _, plug in ipairs(plugins) do
+        path = root_path .. plug
+        if vim.fn.isdirectory(path) ~= 0 then
+            table.insert(paths, path)
+        end
+    end
+    return paths
+end
+
+require('luasnip.loaders.from_vscode').lazy_load({
+    paths = snippets_paths(),
+    include = nil, -- Load all languages
+    exclude = {},
+})
+
 -- local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local opts = { noremap = true, silent = true }
 nnoremap('<space>cd', vim.diagnostic.open_float, opts)
@@ -149,77 +249,6 @@ require('mason-lspconfig').setup({
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-local cmp = require('cmp')
-local source_mapping = {
-    buffer = '[Buffer]',
-    nvim_lsp = '[LSP]',
-    nvim_lua = '[Lua]',
-    path = '[Path]',
-}
-
-local lspkind = require('lspkind')
-
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            -- For `vsnip` user.
-            -- vim.fn["vsnip#anonymous"](args.body)
-
-            -- For `luasnip` user.
-            require('luasnip').lsp_expand(args.body)
-
-            -- For `ultisnips` user.
-            -- vim.fn["UltiSnips#Anon"](args.body)
-        end,
-    },
-    mapping = cmp.mapping.preset.insert({
-
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete({}),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    }),
-
-    formatting = {
-        format = function(entry, vim_item)
-            vim_item.kind = lspkind.presets.default[vim_item.kind]
-            local menu = source_mapping[entry.source.name]
-            vim_item.menu = menu
-            return vim_item
-        end,
-    },
-
-    sources = {
-        { name = 'nvim_lsp' },
-
-        -- For luasnip user.
-        { name = 'luasnip' },
-
-        { name = 'buffer' },
-    },
-})
-
-local snippets_paths = function()
-    local plugins = { 'friendly-snippets' }
-    local paths = {}
-    local path
-    local root_path = vim.env.HOME .. '/.vim/plugged/'
-    for _, plug in ipairs(plugins) do
-        path = root_path .. plug
-        if vim.fn.isdirectory(path) ~= 0 then
-            table.insert(paths, path)
-        end
-    end
-    return paths
-end
-
-require('luasnip.loaders.from_vscode').lazy_load({
-    paths = snippets_paths(),
-    include = nil, -- Load all languages
-    exclude = {},
-})
 
 for server, cfg in pairs(M.servers) do
     require('lspconfig')[server].setup(cfg)
