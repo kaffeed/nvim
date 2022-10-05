@@ -1,4 +1,6 @@
+vim.g.nord_italic = true
 vim.cmd([[colorscheme nord]])
+
 vim.o.relativenumber = true
 
 local signs =
