@@ -367,24 +367,10 @@ return require('packer').startup(function(use)
 
     use({ 'shaunsingh/nord.nvim' })
 
-    -- TODO: Evaluate if this is really necessary
-    -- use({
-    --     'folke/noice.nvim',
-    --     event = 'VimEnter',
-    --     config = function()
-    --         require('noice').setup()
-    --     end,
-    --     requires = {
-    --         'MunifTanjim/nui.nvim',
-    --         'rcarriga/nvim-notify',
-    --     },
-    -- })
-    --
-    -- use({
-    --     'glacambre/firenvim',
-    --     run = function()
-    --         vim.fn['firenvim#install'](0)
-    --     end,
-    -- })
-    -- use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
+    use({
+        'glacambre/firenvim',
+        run = function()
+            vim.fn['firenvim#install'](0)
+        end,
+    })
 end)
