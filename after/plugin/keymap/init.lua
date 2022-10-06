@@ -42,5 +42,10 @@ nnoremap('<leader>gdr', ':DiffviewRefresh<CR>', opts)
 
 nnoremap('<leader>td', ':Trouble document_diagnostics<CR>', opts)
 
+nnoremap('<leader>bc', ':<C-U>bprevious <bar> bdelete #<CR>', opts)
+
+--
+--
+--
 -- SymbolsOutline
 -- nnoemap('<leader>cs', ':SymbolsOutline<CR>', opts)

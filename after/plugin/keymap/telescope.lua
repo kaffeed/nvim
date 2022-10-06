@@ -13,8 +13,8 @@ nnoremap('<leader>gf', function()
     require('telescope.builtin').git_files()
 end)
 
-nnoremap('<leader>sp', function()
-    require('telescope.builtin').grep_string()
+nnoremap('<leader>ss', function()
+    require('telescope.builtin').live_grep()
 end)
 
 nnoremap('<leader>sw', function()
