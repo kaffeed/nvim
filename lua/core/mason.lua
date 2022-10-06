@@ -114,11 +114,17 @@ nnoremap(']d', vim.diagnostic.goto_next, opts)
 nnoremap('<space>cD', '<cmd>Trouble document_diagnostics <CR>', opts)
 
 M.on_attach_keybindings = function(client, bufnr)
+    vim.lsp.handlers['textDocument/hover'] =
+        vim.lsp.with(vim.lsp.handlers.hover, {
+            border = 'rounded',
+        })
+
     require('nvim-navic').attach(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     nnoremap('gd', vim.lsp.buf.definition, bufopts)
     nnoremap('gD', vim.lsp.buf.declaration, bufopts)
     nnoremap('gi', vim.lsp.buf.implementation, bufopts)
+    nnoremap('gr', ':Telescope lsp_references<CR>', bufopts)
     nnoremap('K', vim.lsp.buf.hover, bufopts)
     nnoremap('<C-k>', vim.lsp.buf.signature_help, bufopts)
     nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
@@ -170,8 +176,8 @@ local luadev = require('lua-dev').setup({
 local angular_project_library_path = nil
 
 if vim.fn.has('unix') == 1 then
-	local home = os.getenv('HOME')
-	angular_project_library_path = home .. '/.npm-global/lib/node_modules/'
+    local home = os.getenv('HOME')
+    angular_project_library_path = home .. '/.npm-global/lib/node_modules/'
 else
     local app_data = os.getenv('AppData')
     angular_project_library_path = app_data .. '/npm/node_modules/'
@@ -239,7 +245,7 @@ M.servers = {
         end,
     }),
     ['tsserver'] = config(),
-    -- ['eslint'] = config(),
+    ['bashls'] = config(),
 }
 
 local get_keys = function(t)
