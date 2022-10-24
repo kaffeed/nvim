@@ -34,7 +34,6 @@ cmp.setup({
         end,
     },
     mapping = cmp.mapping.preset.insert({
-
         ['<C-u>'] = cmp.mapping.scroll_docs(-4),
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete({}),
@@ -154,24 +153,7 @@ local function config(_config)
     }, _config or {})
 end
 
-local luadev = require('lua-dev').setup({
-    library = {
-        vimruntime = true, -- runtime path
-        types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-        plugins = true, -- installed opt or start plugins in packpath
-        -- you can also specify the list of plugins to make available as a workspace library
-        -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
-    },
-    runtime_path = false, -- enable this to get completion in require strings. Slow!
-    -- pass any additional options that will be merged in the final lsp config
-    lspconfig = {
-        cmd = { 'lua-language-server' },
-        on_attach = M.on_attach,
-        capabilities = require('cmp_nvim_lsp').update_capabilities(
-            vim.lsp.protocol.make_client_capabilities()
-        ),
-    },
-})
+require('neodev').setup()
 
 local angular_project_library_path = nil
 
@@ -193,7 +175,7 @@ local angular_cmd = {
 }
 
 M.servers = {
-    ['sumneko_lua'] = luadev,
+    ['sumneko_lua'] = config(),
     ['sqlls'] = config(),
     -- ["rust_analyzer"] = config({}), NOTE: configured in rust-tools
     ['gopls'] = config(),
@@ -246,6 +228,7 @@ M.servers = {
     }),
     ['tsserver'] = config(),
     ['bashls'] = config(),
+    ['powershell_es'] = config(),
 }
 
 local get_keys = function(t)
@@ -262,9 +245,6 @@ require('mason-lspconfig').setup({
 })
 
 vim.lsp.set_log_level('OFF')
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 for server, cfg in pairs(M.servers) do
     require('lspconfig')[server].setup(cfg)

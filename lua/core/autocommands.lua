@@ -13,3 +13,9 @@ autocmd('TextYankPost', {
         })
     end,
 })
+
+vim.api.nvim_create_user_command(
+    'TelescopeFindFiles',
+    'Telescope find_files',
+    {}
+)

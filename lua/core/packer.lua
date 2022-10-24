@@ -25,7 +25,7 @@ return require('packer').startup(function(use)
         {
             'neovim/nvim-lspconfig',
             requires = {
-                'folke/lua-dev.nvim',
+                'folke/neodev.nvim',
                 'jose-elias-alvarez/null-ls.nvim',
             },
         },
@@ -42,7 +42,7 @@ return require('packer').startup(function(use)
                 sources = {
                     nls.builtins.formatting.stylua,
                     -- nls.builtins.diagnostics.eslint,
-                    nls.builtins.completion.spell,
+                    -- nls.builtins.completion.spell,
                 },
                 on_attach = function(client, bufnr)
                     if client.supports_method('textDocument/formatting') then
@@ -134,6 +134,8 @@ return require('packer').startup(function(use)
         },
     })
 
+    use({ 'folke/neodev.nvim' })
+
     use({
         'folke/trouble.nvim',
         requires = 'kyazdani42/nvim-web-devicons',
@@ -187,16 +189,30 @@ return require('packer').startup(function(use)
     })
 
     use({
+        'wthollingsworth/pomodoro.nvim',
+        require = 'MunifTanjim/nui.nvim',
+        config = function()
+            require('pomodoro').setup({
+                time_work = 25,
+                time_break_short = 5,
+                time_break_long = 20,
+                timers_to_long_break = 4,
+            })
+        end,
+    })
+
+    use({
         'nvim-lualine/lualine.nvim',
         requires = {
             'kyazdani42/nvim-web-devicons', -- optional, for file icons
         },
         config = function()
             local navic = require('nvim-navic')
-
+            local pomodoro = require('pomodoro').statusline
             require('lualine').setup({
                 sections = {
                     lualine_c = {
+                        pomodoro,
                         { navic.get_location, cond = navic.is_available },
                     },
                     lualine_x = {
@@ -372,5 +388,18 @@ return require('packer').startup(function(use)
         run = function()
             vim.fn['firenvim#install'](0)
         end,
+    })
+
+    use({
+        'folke/noice.nvim',
+        event = 'VimEnter',
+        config = function()
+            require('noice').setup()
+        end,
+        requires = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            'MunifTanjim/nui.nvim',
+            'rcarriga/nvim-notify',
+        },
     })
 end)

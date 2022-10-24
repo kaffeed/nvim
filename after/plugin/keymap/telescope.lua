@@ -30,3 +30,5 @@ end)
 nnoremap('<leader>hf', function()
     require('telescope.builtin').help_tags()
 end)
+
+nnoremap('<C-y>', require('telescope.builtin').registers)
