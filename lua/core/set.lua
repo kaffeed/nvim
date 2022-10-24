@@ -25,8 +25,6 @@ if vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1 then
     }
 end
 
--- vim.o.ch = 0
-
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.termguicolors = true

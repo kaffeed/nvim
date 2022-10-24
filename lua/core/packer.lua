@@ -215,20 +215,12 @@ return require('packer').startup(function(use)
                         pomodoro,
                         { navic.get_location, cond = navic.is_available },
                     },
-                    lualine_x = {
-                        'lsp_progress',
-                    },
                 },
                 options = {
                     theme = 'nord',
                 },
             })
         end,
-    })
-
-    use({
-        'arkav/lualine-lsp-progress',
-        requires = 'nvim-lualine/lualine.nvim',
     })
 
     use({
