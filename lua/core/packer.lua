@@ -217,7 +217,7 @@ return require('packer').startup(function(use)
                     },
                 },
                 options = {
-                    theme = 'nord',
+                    theme = 'tokyonight',
                 },
             })
         end,
@@ -391,7 +391,14 @@ return require('packer').startup(function(use)
         requires = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             'MunifTanjim/nui.nvim',
-            'rcarriga/nvim-notify',
+            -- 'rcarriga/nvim-notify',
         },
+    })
+
+    use({
+        'lewis6991/gitsigns.nvim',
+        config = function()
+            require('gitsigns').setup()
+        end,
     })
 end)

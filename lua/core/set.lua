@@ -28,3 +28,6 @@ end
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.termguicolors = true
+
+vim.o.lazyredraw = false
+vim.go.lazyredraw = false
