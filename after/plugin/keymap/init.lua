@@ -7,8 +7,6 @@ local opts = { silent = true, noremap = true }
 nnoremap('<C-l>', ':NvimTreeToggle<CR>', opts)
 nnoremap('Y', 'y$')
 
-nnoremap('<leader>gg', ':Neogit<CR>', opts)
-
 nnoremap('<leader>tt', ':TodoTrouble<CR>', opts)
 
 nnoremap('<C-w>z', ':WindowsMaximize<CR>', opts)

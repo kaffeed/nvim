@@ -401,4 +401,11 @@ return require('packer').startup(function(use)
             require('gitsigns').setup()
         end,
     })
+
+    use({
+        'akinsho/toggleterm.nvim',
+        config = function()
+            require('core.plugins.toggleterm')
+        end,
+    })
 end)
