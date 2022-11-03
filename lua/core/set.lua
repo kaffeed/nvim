@@ -31,3 +31,5 @@ vim.opt.termguicolors = true
 
 vim.o.lazyredraw = false
 vim.go.lazyredraw = false
+
+vim.o.swapfile = false

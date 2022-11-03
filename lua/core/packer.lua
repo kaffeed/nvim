@@ -41,8 +41,6 @@ return require('packer').startup(function(use)
             nls.setup({
                 sources = {
                     nls.builtins.formatting.stylua,
-                    -- nls.builtins.diagnostics.eslint,
-                    -- nls.builtins.completion.spell,
                 },
                 on_attach = function(client, bufnr)
                     if client.supports_method('textDocument/formatting') then
@@ -54,7 +52,6 @@ return require('packer').startup(function(use)
                             group = augroup,
                             buffer = bufnr,
                             callback = function()
-                                -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
                                 vim.lsp.buf.format({
                                     bufnr = bufnr,
                                     filter = function(c)
@@ -140,11 +137,7 @@ return require('packer').startup(function(use)
         'folke/trouble.nvim',
         requires = 'kyazdani42/nvim-web-devicons',
         config = function()
-            require('trouble').setup({
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            })
+            require('trouble').setup({})
         end,
     })
 
@@ -213,11 +206,15 @@ return require('packer').startup(function(use)
                 sections = {
                     lualine_c = {
                         pomodoro,
-                        { navic.get_location, cond = navic.is_available },
                     },
                 },
                 options = {
                     theme = 'tokyonight',
+                },
+                winbar = {
+                    lualine_c = {
+                        { navic.get_location, cond = navic.is_available },
+                    },
                 },
             })
         end,
@@ -260,12 +257,12 @@ return require('packer').startup(function(use)
                             { buffer = bufnr }
                         )
                         nnoremap(
-                            '<leader>cra',
+                            '<leader>lra',
                             rt.code_action_group.code_action_group,
                             { buffer = bufnr }
                         )
                         nnoremap(
-                            '<leader>crr',
+                            '<leader>lrr',
                             rt.runnables.runnables,
                             { buffer = bufnr }
                         )
@@ -312,16 +309,6 @@ return require('packer').startup(function(use)
     use({
         'SmiteshP/nvim-navic',
         requires = 'neovim/nvim-lspconfig',
-    })
-
-    use({
-        'ray-x/lsp_signature.nvim',
-        config = function()
-            require('lsp_signature').setup({
-                bind = true,
-                handler_opts = { border = 'rounded' },
-            })
-        end,
     })
 
     use({
@@ -386,7 +373,19 @@ return require('packer').startup(function(use)
         'folke/noice.nvim',
         event = 'VimEnter',
         config = function()
-            require('noice').setup()
+            require('noice').setup({
+                presets = {
+                    lsp_doc_border = true,
+                    long_message_to_split = true,
+                },
+                lsp = {
+                    override = {
+                        ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+                        ['vim.lsp.util.stylize_markdown'] = true,
+                        ['cmp.entry.get_documentation'] = true,
+                    },
+                },
+            })
         end,
         requires = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -406,6 +405,13 @@ return require('packer').startup(function(use)
         'akinsho/toggleterm.nvim',
         config = function()
             require('core.plugins.toggleterm')
+        end,
+    })
+
+    use({
+        'echasnovski/mini.nvim',
+        config = function()
+            require('mini.align').setup()
         end,
     })
 end)

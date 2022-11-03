@@ -4,7 +4,6 @@ local nnoremap = Remap.nnoremap
 
 local opts = { silent = true, noremap = true }
 
-nnoremap('<C-l>', ':NvimTreeToggle<CR>', opts)
 nnoremap('Y', 'y$')
 
 nnoremap('<leader>tt', ':TodoTrouble<CR>', opts)
@@ -42,8 +41,9 @@ nnoremap('<leader>td', ':Trouble document_diagnostics<CR>', opts)
 
 nnoremap('<leader>bc', ':<C-U>bprevious <bar> bdelete #<CR>', opts)
 
---
---
+nnoremap('<leader>nh', ':Noice history<CR>', opts)
+nnoremap('<leader>nt', ':Noice telescope<cr>', opts)
+
 --
 -- SymbolsOutline
 -- nnoemap('<leader>cs', ':SymbolsOutline<CR>', opts)

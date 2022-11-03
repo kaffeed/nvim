@@ -23,14 +23,8 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            -- For `vsnip` user.
-            -- vim.fn["vsnip#anonymous"](args.body)
-
             -- For `luasnip` user.
             require('luasnip').lsp_expand(args.body)
-
-            -- For `ultisnips` user.
-            -- vim.fn["UltiSnips#Anon"](args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert({
@@ -107,16 +101,16 @@ require('luasnip.loaders.from_vscode').lazy_load({
 
 -- local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local opts = { noremap = true, silent = true }
-nnoremap('<space>cd', vim.diagnostic.open_float, opts)
+nnoremap('<space>ld', vim.diagnostic.open_float, opts)
 nnoremap('[d', vim.diagnostic.goto_prev, opts)
 nnoremap(']d', vim.diagnostic.goto_next, opts)
-nnoremap('<space>cD', '<cmd>Trouble document_diagnostics <CR>', opts)
+nnoremap('<space>lD', '<cmd>Trouble document_diagnostics <CR>', opts)
 
 M.on_attach_keybindings = function(client, bufnr)
-    vim.lsp.handlers['textDocument/hover'] =
-        vim.lsp.with(vim.lsp.handlers.hover, {
-            border = 'rounded',
-        })
+    -- vim.lsp.handlers['textDocument/hover'] =
+    --     vim.lsp.with(vim.lsp.handlers.hover, {
+    --         border = 'rounded',
+    --     })
 
     require('nvim-navic').attach(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -132,12 +126,23 @@ M.on_attach_keybindings = function(client, bufnr)
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, bufopts)
     nnoremap('crn', vim.lsp.buf.rename, bufopts)
-    nnoremap('<leader>ca', vim.lsp.buf.code_action, bufopts)
-    nnoremap('<leader>cs', ':SymbolsOutline<CR>', bufopts)
+    nnoremap('<leader>la', vim.lsp.buf.code_action, bufopts)
+    nnoremap('<leader>ls', ':SymbolsOutline<CR>', bufopts)
     nnoremap('<leader>vd', vim.diagnostic.open_float, bufopts)
-    nnoremap('<leader>cf', function()
+    nnoremap('<leader>lf', function()
         vim.lsp.buf.format({ async = true })
     end, bufopts)
+    nnoremap('<c-f>', function()
+        if not require('noice.lsp').scroll(4) then
+            return '<c-f>'
+        end
+    end, { silent = true, expr = true })
+
+    nnoremap('<c-b>', function()
+        if not require('noice.lsp').scroll(-4) then
+            return '<c-b>'
+        end
+    end, { silent = true, expr = true })
 end
 
 M.on_attach = function(client, bufnr)
@@ -162,6 +167,7 @@ else
     local app_data = os.getenv('AppData')
     angular_project_library_path = app_data .. '/npm/node_modules/'
 end
+
 local angular_cmd = {
     'node',
     angular_project_library_path .. '/@angular/language-server',
@@ -173,9 +179,10 @@ local angular_cmd = {
 }
 
 M.servers = {
+    ['html'] = config(),
+    ['cssls'] = config(),
     ['sumneko_lua'] = config(),
     ['sqlls'] = config(),
-    -- ["rust_analyzer"] = config({}), NOTE: configured in rust-tools
     ['gopls'] = config(),
     ['omnisharp'] = config({
         enable_editorconfig_support = true,
@@ -231,7 +238,7 @@ M.servers = {
 
 local get_keys = function(t)
     local keys = {}
-    for key, value in pairs(t) do
+    for key, _ in pairs(t) do
         table.insert(keys, key)
     end
     return keys
