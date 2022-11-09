@@ -10,29 +10,9 @@ M.setup = function()
                 n = { ['<c-t>'] = trouble.open_with_trouble },
             },
         },
-        pickers = {
-            find_files = {
-                theme = 'ivy',
-            },
-            buffers = {
-                theme = 'ivy',
-            },
-            oldfiles = {
-                theme = 'ivy',
-            },
-            git_branches = {
-                theme = 'ivy',
-            },
-            git_status = {
-                theme = 'ivy',
-            },
-            grep_string = {
-                theme = 'ivy',
-            },
-        },
         extensions = {
             ['ui-select'] = {
-                require('telescope.themes').get_ivy(),
+                require('telescope.themes').get_dropdown(),
             },
         },
     })

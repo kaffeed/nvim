@@ -181,6 +181,7 @@ local angular_cmd = {
 M.servers = {
     ['html'] = config(),
     ['cssls'] = config(),
+    ['cssmodules_ls'] = config(),
     ['sumneko_lua'] = config(),
     ['sqlls'] = config(),
     ['gopls'] = config(),
@@ -231,7 +232,12 @@ M.servers = {
             new_config.cmd = angular_cmd
         end,
     }),
-    ['tsserver'] = config(),
+    ['tsserver'] = config({
+        init_options = {
+            hostInfo = 'neovim',
+            maxTsServerMemory = 4096,
+        },
+    }),
     ['bashls'] = config(),
     ['powershell_es'] = config(),
 }

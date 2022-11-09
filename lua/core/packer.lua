@@ -209,7 +209,7 @@ return require('packer').startup(function(use)
                     },
                 },
                 options = {
-                    theme = 'tokyonight',
+                    theme = 'catppuccin',
                 },
                 winbar = {
                     lualine_c = {
@@ -412,6 +412,19 @@ return require('packer').startup(function(use)
         'echasnovski/mini.nvim',
         config = function()
             require('mini.align').setup()
+        end,
+    })
+
+    use({
+        'catppuccin/nvim',
+        config = function()
+            require('catppuccin').setup({
+                flavour = 'macchiato',
+                indent_blankline = {
+                    enabled = true,
+                    colored_indent_levels = false,
+                },
+            })
         end,
     })
 end)

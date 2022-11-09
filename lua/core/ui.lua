@@ -1,7 +1,7 @@
 vim.g.nord_italic = true
-vim.cmd([[colorscheme tokyonight-day]])
+vim.cmd([[colorscheme catppuccin]])
 
-vim.o.background = 'light'
+vim.o.background = 'dark'
 vim.o.relativenumber = true
 
 local signs =
