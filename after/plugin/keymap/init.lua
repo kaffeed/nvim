@@ -37,7 +37,7 @@ nnoremap(
 -- Diffview stuff
 nnoremap('<leader>gdo', ':DiffviewOpen<CR>', opts)
 nnoremap('<leader>gdc', ':DiffviewClose<CR>', opts)
-nnoremap('<leader>gdo', ':DiffviewFileHistory<CR>', opts)
+nnoremap('<leader>gdf', ':DiffviewFileHistory<CR>', opts)
 nnoremap('<leader>gdr', ':DiffviewRefresh<CR>', opts)
 
 nnoremap('<leader>td', ':Trouble document_diagnostics<CR>', opts)
@@ -46,6 +46,11 @@ nnoremap('<leader>bc', ':<C-U>bprevious <bar> bdelete #<CR>', opts)
 
 nnoremap('<leader>nh', ':Noice history<CR>', opts)
 nnoremap('<leader>nt', ':Noice telescope<cr>', opts)
+
+nnoremap('<C-u>', '<C-u>zz')
+nnoremap('<C-d>', '<C-d>zz')
+nnoremap('n', 'nzz')
+nnoremap('N', 'Nzz')
 
 --
 -- SymbolsOutline

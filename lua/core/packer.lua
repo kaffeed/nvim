@@ -211,6 +211,14 @@ return require('packer').startup(function(use)
                 options = {
                     theme = 'catppuccin',
                 },
+                tabline = {
+                    lualine_a = { 'buffers' },
+                    lualine_b = { 'branch' },
+                    lualine_c = { 'filename' },
+                    lualine_x = {},
+                    lualine_y = {},
+                    lualine_z = { 'tabs' },
+                },
                 winbar = {
                     lualine_c = {
                         { navic.get_location, cond = navic.is_available },
@@ -220,12 +228,12 @@ return require('packer').startup(function(use)
         end,
     })
 
-    use({
-        'windwp/nvim-autopairs',
-        config = function()
-            require('nvim-autopairs').setup({})
-        end,
-    })
+    -- use({
+    --     'windwp/nvim-autopairs',
+    --     config = function()
+    --         require('nvim-autopairs').setup({})
+    --     end,
+    -- })
 
     use({
         'tpope/vim-surround',
@@ -425,6 +433,13 @@ return require('packer').startup(function(use)
                     colored_indent_levels = false,
                 },
             })
+        end,
+    })
+
+    use({
+        'simrat39/inlay-hints.nvim',
+        config = function()
+            require('inlay-hints').setup()
         end,
     })
 end)

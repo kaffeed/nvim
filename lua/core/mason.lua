@@ -111,7 +111,6 @@ M.on_attach_keybindings = function(client, bufnr)
     --     vim.lsp.with(vim.lsp.handlers.hover, {
     --         border = 'rounded',
     --     })
-
     require('nvim-navic').attach(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     nnoremap('gd', vim.lsp.buf.definition, bufopts)
