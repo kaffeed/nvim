@@ -41,6 +41,9 @@ return require('packer').startup(function(use)
             nls.setup({
                 sources = {
                     nls.builtins.formatting.stylua,
+                    nls.builtins.formatting.rustfmt,
+                    nls.builtins.code_actions.refactoring,
+                    nls.builtins.diagnostics.editorconfig_checker,
                 },
                 on_attach = function(client, bufnr)
                     if client.supports_method('textDocument/formatting') then
