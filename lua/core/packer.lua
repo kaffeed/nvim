@@ -338,13 +338,6 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'phaazon/hop.nvim',
-        config = function()
-            require('hop').setup({ keys = 'etovxqpdygfblzhckisuran' })
-        end,
-    })
-
-    use({
         'kyazdani42/nvim-tree.lua',
         cmd = {
             'NvimTreeToggle',

@@ -1,38 +1,24 @@
 local Remap = require('core.keymap')
 local nnoremap = Remap.nnoremap
 
-nnoremap('<leader>ff', function()
-    require('telescope.builtin').find_files()
-end)
+nnoremap('<Space>ff', require('telescope.builtin').find_files)
 
-nnoremap('<leader>fr', function()
-    require('telescope.builtin').oldfiles()
-end)
+nnoremap('<Space>fr', require('telescope.builtin').oldfiles)
 
-nnoremap('<leader>gf', function()
-    require('telescope.builtin').git_files()
-end)
+nnoremap('<Space>gf', require('telescope.builtin').git_files)
 
-nnoremap('<leader>ss', function()
-    require('telescope.builtin').live_grep()
-end)
+nnoremap('<Space>ss', require('telescope.builtin').live_grep)
 
-nnoremap('<leader>sw', function()
+nnoremap('<Space>sw', function()
     require('telescope.builtin').grep_string({
         search = vim.fn.expand('<cword>'),
     })
 end)
 
-nnoremap('<leader>bb', function()
-    require('telescope.builtin').buffers()
-end)
+nnoremap('<Space>bb', require('telescope.builtin').buffers)
 
-nnoremap('<leader>hf', function()
-    require('telescope.builtin').help_tags()
-end)
+nnoremap('<Space>hf', require('telescope.builtin').help_tags)
 
-nnoremap('<leader>p', function()
-    require('telescope.builtin').commands()
-end)
+nnoremap('<Space>p', require('telescope.builtin').commands)
 
 nnoremap('<C-y>', require('telescope.builtin').registers)
