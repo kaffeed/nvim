@@ -48,8 +48,6 @@ function _LAZYGIT_TOGGLE()
     lazygit:toggle()
 end
 
-nnoremap('<leader>gg', _LAZYGIT_TOGGLE, { noremap = true, silent = true })
-
 local lazydocker = Terminal:new({ cmd = 'lazydocker', hidden = true })
 
 function _LAZYDOCKER_TOGGLE()

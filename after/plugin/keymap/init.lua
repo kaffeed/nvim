@@ -28,6 +28,7 @@ nnoremap('<C-d>', '<C-d>zz')
 nnoremap('n', 'nzz')
 nnoremap('N', 'Nzz')
 
+nnoremap('<leader>gg', ':G<CR>', opts)
 --
 -- SymbolsOutline
 -- nnoemap('<leader>cs', ':SymbolsOutline<CR>', opts)
