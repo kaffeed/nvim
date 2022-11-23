@@ -16,7 +16,7 @@ end
 -- TODO: This needs to be cleaned up some time as well, also maybe split up the configuration from here
 
 return require('packer').startup(function(use)
-    -- configure packages here
+    --configure packages here
     use('wbthomason/packer.nvim')
 
     use({
@@ -41,7 +41,6 @@ return require('packer').startup(function(use)
             nls.setup({
                 sources = {
                     nls.builtins.formatting.stylua,
-                    nls.builtins.formatting.rustfmt,
                     nls.builtins.code_actions.refactoring,
                     nls.builtins.diagnostics.editorconfig_checker,
                 },
@@ -212,7 +211,7 @@ return require('packer').startup(function(use)
                     },
                 },
                 options = {
-                    theme = 'catppuccin',
+                    theme = 'ayu',
                 },
                 tabline = {
                     lualine_a = { 'buffers' },
@@ -230,13 +229,6 @@ return require('packer').startup(function(use)
             })
         end,
     })
-
-    -- use({
-    --     'windwp/nvim-autopairs',
-    --     config = function()
-    --         require('nvim-autopairs').setup({})
-    --     end,
-    -- })
 
     use({
         'tpope/vim-surround',
@@ -298,7 +290,6 @@ return require('packer').startup(function(use)
         },
     })
 
-    -- use({ 'kdheepak/lazygit.nvim' })
     use({
         'TimUntersberger/neogit',
         cmd = {
@@ -436,6 +427,20 @@ return require('packer').startup(function(use)
         'simrat39/inlay-hints.nvim',
         config = function()
             require('inlay-hints').setup()
+        end,
+    })
+
+    use({
+        'Shatur/neovim-ayu',
+        config = function()
+            require('ayu').setup({ mirage = false })
+        end,
+    })
+
+    use({
+        'ThePrimeagen/harpoon',
+        config = function()
+            require('harpoon').setup()
         end,
     })
 end)

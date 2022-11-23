@@ -19,6 +19,6 @@ nnoremap('<Space>bb', require('telescope.builtin').buffers)
 
 nnoremap('<Space>hf', require('telescope.builtin').help_tags)
 
-nnoremap('<Space>p', require('telescope.builtin').commands)
+nnoremap('<C-p>', require('telescope.builtin').commands)
 
 nnoremap('<C-y>', require('telescope.builtin').registers)

@@ -1,6 +1,6 @@
 require('core.globals')
 require('core.packer')
-require('impatient')
+--require('impatient')
 require('core.mason')
 require('core.ui')
 require('core.autocommands')

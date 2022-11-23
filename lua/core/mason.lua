@@ -118,7 +118,7 @@ M.on_attach_keybindings = function(client, bufnr)
     nnoremap('gi', vim.lsp.buf.implementation, bufopts)
     nnoremap('gr', ':Telescope lsp_references<CR>', bufopts)
     nnoremap('K', vim.lsp.buf.hover, bufopts)
-    nnoremap('<C-k>', vim.lsp.buf.signature_help, bufopts)
+    -- nnoremap('<C-k>', vim.lsp.buf.signature_help, bufopts)
     nnoremap('<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     nnoremap('<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
     nnoremap('<leader>wl', function()
@@ -223,7 +223,6 @@ M.servers = {
     }),
     ['pyright'] = config(),
     ['angularls'] = config({
-        filetypes = { 'html', 'typescriptreact', 'typescript.tsx' }, -- overwrite typescript because the ts language server works better
         cmd = angular_cmd,
         on_new_config = function(new_config, _)
             -- P(new_config)
@@ -231,12 +230,7 @@ M.servers = {
             new_config.cmd = angular_cmd
         end,
     }),
-    ['tsserver'] = config({
-        init_options = {
-            hostInfo = 'neovim',
-            maxTsServerMemory = 4096,
-        },
-    }),
+    ['tsserver'] = config(),
     ['bashls'] = config(),
     ['powershell_es'] = config(),
 }
