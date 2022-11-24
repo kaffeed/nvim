@@ -1,5 +1,5 @@
 vim.g.nord_italic = true
-vim.cmd([[colorscheme ayu]])
+vim.cmd([[colorscheme zenbones]])
 
 vim.o.background = 'dark'
 vim.o.relativenumber = true

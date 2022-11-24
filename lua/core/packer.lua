@@ -42,7 +42,6 @@ return require('packer').startup(function(use)
                 sources = {
                     nls.builtins.formatting.stylua,
                     nls.builtins.code_actions.refactoring,
-                    nls.builtins.diagnostics.editorconfig_checker,
                 },
                 on_attach = function(client, bufnr)
                     if client.supports_method('textDocument/formatting') then
@@ -211,7 +210,7 @@ return require('packer').startup(function(use)
                     },
                 },
                 options = {
-                    theme = 'ayu',
+                    theme = 'zenbones',
                 },
                 tabline = {
                     lualine_a = { 'buffers' },
@@ -430,10 +429,12 @@ return require('packer').startup(function(use)
         end,
     })
 
+    use({ 'kamwitsta/flatwhite-vim' })
+
     use({
-        'Shatur/neovim-ayu',
+        'cranberry-clockworks/coal.nvim',
         config = function()
-            require('ayu').setup({ mirage = false })
+            require('coal').setup()
         end,
     })
 
@@ -443,4 +444,5 @@ return require('packer').startup(function(use)
             require('harpoon').setup()
         end,
     })
+    use({ 'mcchrish/zenbones.nvim', requires = 'rktjmp/lush.nvim' })
 end)
