@@ -1,5 +1,5 @@
 vim.g.nord_italic = true
-vim.cmd([[colorscheme zenbones]])
+vim.cmd([[colorscheme nord]])
 
 vim.o.background = 'dark'
 vim.o.relativenumber = true

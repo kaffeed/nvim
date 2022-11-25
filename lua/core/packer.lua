@@ -105,7 +105,6 @@ return require('packer').startup(function(use)
 
     use({
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
         config = function()
             require('core.plugins.treesitter')
         end,
@@ -210,7 +209,7 @@ return require('packer').startup(function(use)
                     },
                 },
                 options = {
-                    theme = 'zenbones',
+                    theme = 'nord',
                 },
                 tabline = {
                     lualine_a = { 'buffers' },
@@ -323,25 +322,7 @@ return require('packer').startup(function(use)
         end,
     })
 
-    use({
-        'lewis6991/impatient.nvim',
-    })
-
-    use({
-        'kyazdani42/nvim-tree.lua',
-        cmd = {
-            'NvimTreeToggle',
-        },
-        config = function()
-            require('nvim-tree').setup({
-                sort_by = 'case_sensitive',
-                view = {
-                    adaptive_size = true,
-                    side = 'right',
-                },
-            })
-        end,
-    })
+    use({ 'lewis6991/impatient.nvim' })
 
     use({
         'mfussenegger/nvim-jdtls',
@@ -355,13 +336,6 @@ return require('packer').startup(function(use)
     })
 
     use({ 'shaunsingh/nord.nvim' })
-
-    use({
-        'glacambre/firenvim',
-        run = function()
-            vim.fn['firenvim#install'](0)
-        end,
-    })
 
     use({
         'folke/noice.nvim',
@@ -410,31 +384,9 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'catppuccin/nvim',
-        config = function()
-            require('catppuccin').setup({
-                flavour = 'macchiato',
-                indent_blankline = {
-                    enabled = true,
-                    colored_indent_levels = false,
-                },
-            })
-        end,
-    })
-
-    use({
         'simrat39/inlay-hints.nvim',
         config = function()
             require('inlay-hints').setup()
-        end,
-    })
-
-    use({ 'kamwitsta/flatwhite-vim' })
-
-    use({
-        'cranberry-clockworks/coal.nvim',
-        config = function()
-            require('coal').setup()
         end,
     })
 
@@ -444,5 +396,15 @@ return require('packer').startup(function(use)
             require('harpoon').setup()
         end,
     })
-    use({ 'mcchrish/zenbones.nvim', requires = 'rktjmp/lush.nvim' })
+
+    use({
+        'prichrd/netrw.nvim',
+        config = function()
+            require('netrw').setup({
+                use_devicons = true,
+            })
+        end,
+    })
+
+    use({ 'tpope/vim-vinegar' })
 end)
