@@ -15,6 +15,8 @@ nnoremap('<Space>sw', function()
     })
 end)
 
+nnoremap('<Space>pp', require('telescope').extensions.projects.projects)
+
 nnoremap('<Space>bb', require('telescope.builtin').buffers)
 
 nnoremap('<Space>hf', require('telescope.builtin').help_tags)

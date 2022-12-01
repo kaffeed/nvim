@@ -118,6 +118,13 @@ return require('packer').startup(function(use)
     })
 
     use({
+        'windwp/nvim-autopairs',
+        config = function()
+            require('nvim-autopairs').setup({})
+        end,
+    })
+
+    use({
         'windwp/nvim-ts-autotag',
         requires = {
             'nvim-treesitter/nvim-treesitter',
@@ -394,6 +401,17 @@ return require('packer').startup(function(use)
         'ThePrimeagen/harpoon',
         config = function()
             require('harpoon').setup()
+        end,
+    })
+
+    use({
+        'ahmedkhalf/project.nvim',
+        config = function()
+            require('project_nvim').setup({
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            })
         end,
     })
 

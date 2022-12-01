@@ -30,6 +30,12 @@ M.setup = function()
             grep_string = {
                 theme = 'ivy',
             },
+            commands = {
+                theme = 'ivy',
+            },
+            command_history = {
+                theme = 'ivy',
+            },
         },
         extensions = {
             ['ui-select'] = {
@@ -40,6 +46,7 @@ M.setup = function()
 
     telescope.load_extension('ui-select')
     telescope.load_extension('harpoon')
+    telescope.load_extension('projects')
 end
 
 return M
