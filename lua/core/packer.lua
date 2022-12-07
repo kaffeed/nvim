@@ -85,12 +85,55 @@ return require('packer').startup(function(use)
         end,
     })
 
-    -- CMP
-    use('hrsh7th/cmp-nvim-lsp')
-    use('hrsh7th/cmp-buffer')
-    use('hrsh7th/cmp-path')
-    use('saadparwaiz1/cmp_luasnip')
-    use('hrsh7th/nvim-cmp')
+    -- -- CMP
+    -- use('hrsh7th/cmp-nvim-lsp')
+    -- use('hrsh7th/cmp-buffer')
+    -- use('hrsh7th/cmp-path')
+    -- use('saadparwaiz1/cmp_luasnip')
+    -- use('hrsh7th/nvim-cmp')
+
+    use({
+        'VonHeikemen/lsp-zero.nvim',
+        requires = {
+            -- LSP Support
+            { 'neovim/nvim-lspconfig' },
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
+
+            -- Autocompletion
+            { 'hrsh7th/nvim-cmp' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-path' },
+            { 'saadparwaiz1/cmp_luasnip' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/cmp-nvim-lua' },
+
+            -- Snippets
+            { 'L3MON4D3/LuaSnip' },
+            { 'rafamadriz/friendly-snippets' },
+        },
+        config = function()
+            local lsp = require('lsp-zero')
+
+            lsp.preset('recommended')
+
+            lsp.set_preferences({
+                set_lsp_keymaps = false,
+            })
+
+            lsp.on_attach(require('core.mason').on_attach_keybindings)
+
+            lsp.ensure_installed({
+                'tsserver',
+                'eslint',
+                'omnisharp',
+                'sumneko_lua',
+            })
+
+            lsp.nvim_workspace()
+            lsp.setup()
+        end,
+    })
 
     use({
         'numToStr/Comment.nvim',
@@ -243,7 +286,20 @@ return require('packer').startup(function(use)
         'tpope/vim-fugitive',
         cmd = {
             'G',
+            'Git',
+            'Gdiffsplit',
+            'Gread',
+            'Gwrite',
+            'Ggrep',
+            'GMove',
+            'GDelete',
+            'GBrowse',
+            'GRemove',
+            'GRename',
+            'Glgrep',
+            'Gedit',
         },
+        ft = { 'fugitive' },
     })
 
     use({
