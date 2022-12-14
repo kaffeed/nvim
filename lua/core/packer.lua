@@ -333,7 +333,7 @@ return require('packer').startup(function(use)
                     },
                 },
                 options = {
-                    theme = 'catppuccin-macchiato',
+                    theme = 'catppuccin',
                 },
                 tabline = {
                     lualine_a = { 'buffers' },
@@ -560,10 +560,53 @@ return require('packer').startup(function(use)
         'catppuccin/nvim',
         as = 'catppuccin',
         config = function()
-            require('catppuccin').setup()
+            require('catppuccin').setup({
+                flavour = 'macchiato',
+                dim_inactive = {
+                    enabled = true,
+                },
+                integrations = {
+                    telescope = true,
+                    mini = true,
+                    noice = true,
+                    indent_blankline = {
+                        enabled = true,
+                        colored_indent_levels = true,
+                    },
+                    native_lsp = {
+                        enabled = true,
+                        virtual_text = {
+                            errors = { 'italic' },
+                            hints = { 'italic' },
+                            warnings = { 'italic' },
+                            information = { 'italic' },
+                        },
+                        underlines = {
+                            errors = { 'underline' },
+                            hints = { 'underline' },
+                            warnings = { 'underline' },
+                            information = { 'underline' },
+                        },
+                    },
+                },
+            })
         end,
     })
 
     use({ 'nyoom-engineering/oxocarbon.nvim' })
     use({ 'aduros/ai.vim' })
+    use({
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
+    })
+
+    -- TODO: configure the debug adapter
+
+    use({ 'mfussenegger/nvim-dap' })
+    use({
+        'rcarriga/nvim-dap-ui',
+        requires = {
+            'mfussenegger/nvim-dap',
+        },
+    })
 end)
