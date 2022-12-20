@@ -54,6 +54,11 @@ local options = {
     sidescrolloff = 8,
 }
 
+vim.cmd([[
+let g:syntastic_typescript_checkers = ['tslint']
+let g:syntastic_typescript_tslint_args = "--config c:\\Users\\s.schubert\\source\\perdisng\\perdisng-frontend\\tslint.json"
+]])
+
 for k, v in pairs(options) do
     vim.opt[k] = v
 end

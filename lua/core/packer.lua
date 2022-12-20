@@ -222,6 +222,14 @@ return require('packer').startup(function(use)
                             ['[]'] = '@class.outer',
                         },
                     },
+                    lsp_interop = {
+                        enable = true,
+                        border = 'rounded',
+                        peek_definition_code = {
+                            ['<leader>df'] = '@function.outer',
+                            ['<leader>dF'] = '@class.outer',
+                        },
+                    },
                 },
             })
         end,
@@ -270,27 +278,6 @@ return require('packer').startup(function(use)
         requires = 'nvim-lua/plenary.nvim',
         config = function()
             require('todo-comments').setup({})
-        end,
-    })
-
-    use({
-        'folke/tokyonight.nvim',
-        config = function()
-            require('tokyonight').setup()
-        end,
-    })
-
-    use({
-        'anuvyklack/windows.nvim',
-        requires = {
-            'anuvyklack/middleclass',
-            'anuvyklack/animation.nvim',
-        },
-        config = function()
-            vim.o.winwidth = 10
-            vim.o.winminwidth = 10
-            vim.o.equalalways = false
-            require('windows').setup()
         end,
     })
 
@@ -609,4 +596,9 @@ return require('packer').startup(function(use)
             'mfussenegger/nvim-dap',
         },
     })
+
+    use({
+        'vim-syntastic/syntastic',
+    })
+    use({ 'shortcuts/no-neck-pain.nvim', tag = '*' })
 end)

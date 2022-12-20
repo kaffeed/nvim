@@ -5,7 +5,7 @@ nnoremap('<Space>ff', require('telescope.builtin').find_files)
 
 nnoremap('<Space>fr', require('telescope.builtin').oldfiles)
 
-nnoremap('<Space>gf', require('telescope.builtin').git_files)
+nnoremap('<Space>pf', require('telescope.builtin').git_files)
 
 nnoremap('<Space>ss', require('telescope.builtin').live_grep)
 
