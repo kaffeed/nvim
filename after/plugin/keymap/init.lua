@@ -35,3 +35,4 @@ nnoremap('<leader>gg', ':G<CR>', opts)
 --
 
 nnoremap('<leader>tp', ':PomodoroStart<CR>', opts)
+nnoremap('<leader>tz', require('core.util').select_zen_mode, opts)

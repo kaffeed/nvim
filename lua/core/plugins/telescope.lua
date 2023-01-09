@@ -11,32 +11,6 @@ M.setup = function()
                 n = { ['<c-t>'] = trouble.open_with_trouble },
             },
         },
-        pickers = {
-            find_files = {
-                theme = 'ivy',
-            },
-            buffers = {
-                theme = 'ivy',
-            },
-            oldfiles = {
-                theme = 'ivy',
-            },
-            git_branches = {
-                theme = 'ivy',
-            },
-            git_status = {
-                theme = 'ivy',
-            },
-            grep_string = {
-                theme = 'ivy',
-            },
-            commands = {
-                theme = 'ivy',
-            },
-            command_history = {
-                theme = 'ivy',
-            },
-        },
         extensions = {
             fzf = {
                 fuzzy = true, -- false will only do exact matching

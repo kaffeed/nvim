@@ -30,4 +30,25 @@ require('nvim-treesitter.configs').setup({
     context_commentstring = {
         enable = true,
     },
+
+    textobjects = {
+        select = {
+            enable = true,
+            lookahead = true,
+
+            keymaps = {
+                ['af'] = '@function.outer',
+                ['if'] = '@function.inner',
+                ['aa'] = '@parameter.outer',
+                ['ia'] = '@parameter.inner',
+                ['aC'] = '@comment.outer',
+                ['iC'] = '@comment.outer',
+                ['al'] = '@loop.outer',
+                ['il'] = '@loop.inner',
+                ['ac'] = '@class.outer',
+                ['ic'] = '@class.inner',
+            },
+            include_surrounding_whitespace = false,
+        },
+    },
 })
