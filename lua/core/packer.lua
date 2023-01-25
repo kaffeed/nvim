@@ -100,7 +100,7 @@ return require('packer').startup(function(use)
             { 'saadparwaiz1/cmp_luasnip' },
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'hrsh7th/cmp-nvim-lua' },
-
+            { "hrsh7th/cmp-nvim-lsp-signature-help" },
             -- Snippets
             { 'L3MON4D3/LuaSnip' },
             { 'rafamadriz/friendly-snippets' },
@@ -121,6 +121,7 @@ return require('packer').startup(function(use)
                 'eslint',
                 'omnisharp',
                 'sumneko_lua',
+                'rust_analyzer',
             })
 
             lsp.nvim_workspace()
@@ -145,88 +146,6 @@ return require('packer').startup(function(use)
             require('core.plugins.treesitter')
         end,
     })
-
-    -- use({
-    --     'nvim-treesitter/nvim-treesitter-textobjects',
-    --     config = function()
-    --         require('nvim-treesitter.configs').setup({
-    --             textobjects = {
-    --                 select = {
-    --                     enable = true,
-    --
-    --                     -- Automatically jump forward to textobj, similar to targets.vim
-    --                     lookahead = true,
-    --
-    --                     keymaps = {
-    --                         -- You can use the capture groups defined in textobjects.scm
-    --                         ['af'] = '@function.outer',
-    --                         ['if'] = '@function.inner',
-    --                         ['ac'] = '@class.outer',
-    --                         -- You can optionally set descriptions to the mappings (used in the desc parameter of
-    --                         -- nvim_buf_set_keymap) which plugins like which-key display
-    --                         ['ic'] = {
-    --                             query = '@class.inner',
-    --                             desc = 'Select inner part of a class region',
-    --                         },
-    --                     },
-    --                     -- You can choose the select mode (default is charwise 'v')
-    --                     --
-    --                     -- Can also be a function which gets passed a table with the keys
-    --                     -- * query_string: eg '@function.inner'
-    --                     -- * method: eg 'v' or 'o'
-    --                     -- and should return the mode ('v', 'V', or '<c-v>') or a table
-    --                     -- mapping query_strings to modes.
-    --                     selection_modes = {
-    --                         ['@parameter.outer'] = 'v', -- charwise
-    --                         ['@function.outer'] = 'V', -- linewise
-    --                         ['@class.outer'] = '<c-v>', -- blockwise
-    --                     },
-    --                     -- If you set this to `true` (default is `false`) then any textobject is
-    --                     -- extended to include preceding or succeeding whitespace. Succeeding
-    --                     -- whitespace has priority in order to act similarly to eg the built-in
-    --                     -- `ap`.
-    --                     --
-    --                     -- Can also be a function which gets passed a table with the keys
-    --                     -- * query_string: eg '@function.inner'
-    --                     -- * selection_mode: eg 'v'
-    --                     -- and should return true of false
-    --                     include_surrounding_whitespace = true,
-    --                 },
-    --                 move = {
-    --                     enable = true,
-    --                     set_jumps = true, -- whether to set jumps in the jumplist
-    --                     goto_next_start = {
-    --                         [']m'] = '@function.outer',
-    --                         [']]'] = {
-    --                             query = '@class.outer',
-    --                             desc = 'Next class start',
-    --                         },
-    --                     },
-    --                     goto_next_end = {
-    --                         [']M'] = '@function.outer',
-    --                         [']['] = '@class.outer',
-    --                     },
-    --                     goto_previous_start = {
-    --                         ['[m'] = '@function.outer',
-    --                         ['[['] = '@class.outer',
-    --                     },
-    --                     goto_previous_end = {
-    --                         ['[M'] = '@function.outer',
-    --                         ['[]'] = '@class.outer',
-    --                     },
-    --                 },
-    --                 lsp_interop = {
-    --                     enable = true,
-    --                     border = 'rounded',
-    --                     peek_definition_code = {
-    --                         ['<leader>df'] = '@function.outer',
-    --                         ['<leader>dF'] = '@class.outer',
-    --                     },
-    --                 },
-    --             },
-    --         })
-    --     end,
-    -- })
 
     use({
         'p00f/nvim-ts-rainbow',
@@ -263,14 +182,6 @@ return require('packer').startup(function(use)
         requires = 'kyazdani42/nvim-web-devicons',
         config = function()
             require('trouble').setup({})
-        end,
-    })
-
-    use({
-        'folke/todo-comments.nvim',
-        requires = 'nvim-lua/plenary.nvim',
-        config = function()
-            require('todo-comments').setup({})
         end,
     })
 
@@ -493,6 +404,16 @@ return require('packer').startup(function(use)
         end,
     })
 
+
+    use({
+      "RRethy/vim-illuminate",
+      event = "BufReadPost",
+      config = function()
+        require("illuminate").configure({ delay = 200 })
+      end,
+    })
+
+
     use({
         'echasnovski/mini.nvim',
         config = function()
@@ -608,5 +529,13 @@ return require('packer').startup(function(use)
 
     use({
         'nvim-treesitter/nvim-treesitter-textobjects',
+    })
+
+    use ({
+      'andymass/vim-matchup',
+      setup = function()
+        -- may set any options here
+        vim.g.matchup_matchparen_offscreen = { method = "popup" }
+      end
     })
 end)

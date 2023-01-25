@@ -2,7 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
     "Lua.completion.autoRequire": false,
     "Lua.diagnostics.globals": [
-        "packer_bootstrap"
+        "packer_bootstrap",
+        "vim"
     ],
     "Lua.workspace.library": [
         "C:\\Users\\s.schubert\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\neodev.nvim\\types\\nightly",
