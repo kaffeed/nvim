@@ -1,5 +1,3 @@
-local fn = vim.fn
-
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -18,7 +16,7 @@ require('lazy').setup({
     spec = {
         { import = 'plugins' },
         --{ import = 'plugins.extras.lang' }, -- for languages that require additional setup
-        --{ import = 'plugins.extras.ui' },
+        { import = 'plugins.extras.ui' },
     },
     defaults = {
         lazy = true,

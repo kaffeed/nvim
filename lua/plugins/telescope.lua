@@ -34,7 +34,7 @@ return {
           { '<leader>pp', function() require('telescope').extensions.projects.projects() end, desc = "Switch project" },
           { '<leader>bb', function() require('telescope.builtin').buffers() end, desc = "Switch buffers" },
           { '<leader>hf', function() require('telescope.builtin').help_tags() end, desc = "Search help" },
-          { '<C-p>', function() require('telescope.builtin').commands() end, desc = "Commands"  },
+          -- { '<C-p>', function() require('telescope.builtin').commands() end, desc = "Commands"  },
           { '<C-y>', function() require('telescope.builtin').registers() end, desc = "Registers" },
         },
         config = function(_, _)

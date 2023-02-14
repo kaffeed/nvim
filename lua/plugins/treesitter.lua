@@ -5,7 +5,6 @@ return {
             'p00f/nvim-ts-rainbow',
             'windwp/nvim-ts-autotag',
             'JoosepAlviste/nvim-ts-context-commentstring',
-            'windwp/nvim-autopairs',
             {
                 'romgrk/nvim-treesitter-context',
                 opts = {
@@ -15,8 +14,8 @@ return {
             },
             'nvim-treesitter/nvim-treesitter-textobjects',
         },
-        build = ":TSUpdate",
-        event = "BufReadPost",
+        build = ':TSUpdate',
+        event = 'BufReadPost',
         opts = {
             -- ensure_installed = 'all',
             --
@@ -73,5 +72,10 @@ return {
                 },
             },
         },
+        config = function(_, opts)
+            require('nvim-treesitter.install').prefer_git = false
+            require('nvim-treesitter.install').compilers = { 'clang', 'gcc' }
+            require('nvim-treesitter.configs').setup(opts)
+        end,
     },
 }

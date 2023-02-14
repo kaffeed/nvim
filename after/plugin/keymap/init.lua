@@ -15,6 +15,7 @@ nnoremap('<leader>gdo', ':DiffviewOpen<CR>', opts)
 nnoremap('<leader>gdc', ':DiffviewClose<CR>', opts)
 nnoremap('<leader>gdf', ':DiffviewFileHistory<CR>', opts)
 nnoremap('<leader>gdr', ':DiffviewRefresh<CR>', opts)
+
 vim.keymap.set(
     '',
     '<Esc>',
@@ -25,9 +26,6 @@ vim.keymap.set(
 nnoremap('<leader>td', ':Trouble document_diagnostics<CR>', opts)
 
 nnoremap('<leader>bc', ':<C-U>bprevious <bar> bdelete #<CR>', opts)
-
-nnoremap('<leader>nh', ':Noice history<CR>', opts)
-nnoremap('<leader>nt', ':Noice telescope<cr>', opts)
 
 nnoremap('<C-u>', '<C-u>zz')
 nnoremap('<C-d>', '<C-d>zz')
