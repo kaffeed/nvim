@@ -52,13 +52,22 @@ local options = {
     wrap = true, -- display lines as one long line
     scrolloff = 8, -- is one of my fav
     sidescrolloff = 8,
+    list = true,
 }
 
-vim.cmd([[
-let g:syntastic_typescript_checkers = ['tslint']
-let g:syntastic_typescript_tslint_args = "--config c:\\Users\\s.schubert\\source\\perdisng\\perdisng-frontend\\tslint.json"
-]])
+vim.cmd([[colorscheme catppuccin-macchiato]])
+
+vim.o.background = 'dark'
+vim.o.relativenumber = true
+
+local signs =
+    { Error = ' ', Warning = ' ', Hint = ' ', Information = ' ' }
+for type, icon in pairs(signs) do
+    local hl = 'LspDiagnosticsSign' .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+end
 
 for k, v in pairs(options) do
     vim.opt[k] = v
 end
+vim.opt.listchars:append('eol:↴')
