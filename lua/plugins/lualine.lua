@@ -10,10 +10,9 @@ return {
             local navic = require('nvim-navic')
             require('lualine').setup({
                 options = {
-                    theme = 'tokyonight',
+                    theme = 'catppuccin',
                 },
                 tabline = {
-                    lualine_a = { 'buffers' },
                     lualine_b = { 'branch' },
                     lualine_c = { 'filename' },
                     lualine_x = {},

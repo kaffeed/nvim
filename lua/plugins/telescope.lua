@@ -13,6 +13,7 @@ return {
                 config = true,
             },
             'ThePrimeagen/harpoon',
+            'nvim-telescope/telescope-project.nvim',
             'ahmedkhalf/project.nvim',
         },
         cmd = 'Telescope',
@@ -57,7 +58,7 @@ return {
             {
                 '<leader>pp',
                 function()
-                    require('telescope').extensions.projects.projects()
+                    require('telescope').extensions.project.project()
                 end,
                 desc = 'Switch project',
             },
@@ -108,12 +109,23 @@ return {
                     ['ui-select'] = {
                         require('telescope.themes').get_dropdown(),
                     },
+                    project = {
+                        base_dirs = {
+                            '~/source/repos',
+                            '~/AppData/Local/',
+                        },
+                        hidden_files = true, -- default: false
+                        theme = 'dropdown',
+                        order_by = 'asc',
+                        search_by = 'title',
+                        sync_with_nvim_tree = true, -- default false
+                    },
                 },
             })
 
             telescope.load_extension('ui-select')
             telescope.load_extension('harpoon')
-            telescope.load_extension('projects')
+            telescope.load_extension('project')
             telescope.load_extension('fzf')
         end,
     },
