@@ -2,7 +2,6 @@ return {
     {
         'folke/noice.nvim',
         event = 'VimEnter',
-        enabled = false,
         opts = {
             presets = {
                 bottom_search = true, --  a classic bottom cmdline for search
@@ -31,7 +30,7 @@ return {
         dependencies = {
             -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
             'MunifTanjim/nui.nvim',
-            -- 'rcarriga/nvim-notify',
+            'rcarriga/nvim-notify',
         },
     },
 }

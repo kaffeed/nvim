@@ -76,45 +76,6 @@ return {
     },
 
     {
-        'simrat39/rust-tools.nvim',
-        config = function()
-            local rt = require('rust-tools')
-            local Rebind = require('core.keymap')
-            local nnoremap = Rebind.nnoremap
-            rt.setup({
-                server = {
-                    on_attach = function(client, bufnr)
-                        local on_attach_keybindings =
-                            require('plugins.lsp.keymap')
-                        on_attach_keybindings(client, bufnr)
-                        nnoremap(
-                            '<C-space>',
-                            rt.hover_actions.hover_actions,
-                            { buffer = bufnr }
-                        )
-                        nnoremap(
-                            '<leader>lra',
-                            rt.code_action_group.code_action_group,
-                            { buffer = bufnr }
-                        )
-                        nnoremap(
-                            '<leader>lrr',
-                            rt.runnables.runnables,
-                            { buffer = bufnr }
-                        )
-                        nnoremap('<C-Shift-n>', function()
-                            rt.move_item.move_item(false)
-                        end, { buffer = bufnr }) -- move down
-                        nnoremap('<C-Shift-p>', function()
-                            rt.move_item.move_item(true)
-                        end, { buffer = bufnr }) -- move up
-                    end,
-                },
-            })
-        end,
-    },
-
-    {
         'sindrets/diffview.nvim',
         event = 'VeryLazy',
         dependencies = {

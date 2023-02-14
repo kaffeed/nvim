@@ -17,7 +17,19 @@ return {
         build = ':TSUpdate',
         event = 'BufReadPost',
         opts = {
-            -- ensure_installed = 'all',
+            ensure_installed = {
+                'bash',
+                'dockerfile',
+                'help',
+                'html',
+                'lua',
+                'markdown',
+                'markdown_inline',
+                'query',
+                'regex',
+                'vim',
+                'yaml',
+            },
             --
             -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
@@ -27,6 +39,16 @@ return {
 
             -- List of parsers to ignore installing (for "all")
             ignore_install = { 'phpdoc', 'php' },
+
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = 'gnn',
+                    node_incremental = 'grn',
+                    scope_incremental = 'grc',
+                    node_decremental = 'grm',
+                },
+            },
 
             highlight = {
                 -- `false` will disable the whole extension
