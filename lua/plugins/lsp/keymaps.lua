@@ -7,7 +7,7 @@ function M.on_attach(client, buffer)
     self:map('gr', 'Telescope lsp_references', { desc = 'References' })
     self:map('gD', 'Telescope lsp_declarations', { desc = 'Goto Declaration' })
     self:map(
-        'gI',
+        'gi',
         'Telescope lsp_implementations',
         { desc = 'Goto Implementation' }
     )
@@ -16,7 +16,7 @@ function M.on_attach(client, buffer)
         'Telescope lsp_type_definitions',
         { desc = 'Goto Type Definition' }
     )
-    -- self:map('K', 'Lspsaga hover_doc', { desc = 'Hover' })
+    self:map('K', 'Lspsaga hover_doc', { desc = 'Hover' })
     self:map(
         'gK',
         vim.lsp.buf.signature_help,
