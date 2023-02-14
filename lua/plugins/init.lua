@@ -1,39 +1,4 @@
 return {
-    {
-        'jose-elias-alvarez/null-ls.nvim',
-        event = 'VeryLazy',
-        config = function(_, _)
-            local nls = require('null-ls')
-            local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-
-            nls.setup({
-                sources = {
-                    nls.builtins.formatting.stylua,
-                    nls.builtins.code_actions.refactoring,
-                },
-                on_attach = function(client, bufnr)
-                    if client.supports_method('textDocument/formatting') then
-                        vim.api.nvim_clear_autocmds({
-                            group = augroup,
-                            buffer = bufnr,
-                        })
-                        vim.api.nvim_create_autocmd('BufWritePre', {
-                            group = augroup,
-                            buffer = bufnr,
-                            callback = function()
-                                vim.lsp.buf.format({
-                                    bufnr = bufnr,
-                                    filter = function(c)
-                                        return c.name == 'null-ls'
-                                    end,
-                                })
-                            end,
-                        })
-                    end
-                end,
-            })
-        end,
-    },
 
     { 'nvim-lua/popup.nvim', event = 'VeryLazy' },
 
@@ -141,8 +106,6 @@ return {
     },
 
     { 'tpope/vim-vinegar', event = 'VeryLazy' },
-
-    { 'aduros/ai.vim' },
 
     {
         'Pocco81/true-zen.nvim',

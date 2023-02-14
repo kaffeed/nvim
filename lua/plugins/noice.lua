@@ -30,6 +30,7 @@ return {
                 '<leader>nh',
                 ':Noice telescope<CR>',
                 desc = 'Notification history',
+                silent = true,
             },
         },
 

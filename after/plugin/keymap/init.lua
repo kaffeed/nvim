@@ -6,8 +6,6 @@ local opts = { silent = true, noremap = true }
 
 nnoremap('Y', 'y$')
 
-nnoremap('<leader>tt', ':TodoTrouble<CR>', opts)
-
 nnoremap('<C-w>z', ':WindowsMaximize<CR>', opts)
 
 -- Diffview stuff
@@ -24,9 +22,6 @@ vim.keymap.set(
 )
 
 nnoremap('<leader>td', ':Trouble document_diagnostics<CR>', opts)
-
-nnoremap('<leader>bc', ':<C-U>bprevious <bar> bdelete #<CR>', opts)
-
 nnoremap('<C-u>', '<C-u>zz')
 nnoremap('<C-d>', '<C-d>zz')
 nnoremap('n', 'nzz')

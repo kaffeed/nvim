@@ -11,7 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- TODO: This needs to be cleaned up some time as well, also maybe split up the configuration from here
 require('lazy').setup({
     spec = {
         { import = 'plugins' },
