@@ -1,4 +1,4 @@
-local nnoremap = require('core.keymap').nnoremap
+local nnoremap = require('keymap').nnoremap
 
 local silent = { silent = true }
 

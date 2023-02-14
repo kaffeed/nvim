@@ -1,4 +1,3 @@
-require('nvim-treesitter.configs').setup()
 return {
     {
         'nvim-treesitter/nvim-treesitter',

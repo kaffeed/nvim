@@ -1,4 +1,4 @@
-local nnoremap = require('lua.keymap').nnoremap
+local nnoremap = require('keymap').nnoremap
 return function(client, bufnr)
     require('nvim-navic').attach(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }

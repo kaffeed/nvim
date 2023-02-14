@@ -8,25 +8,11 @@ function _G.set_terminal_keymaps()
     vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
 end
 
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-
-local Terminal = require('toggleterm.terminal').Terminal
-local lazygit =
-    Terminal:new({ cmd = 'lazygit', hidden = true, direction = 'float' })
-
-function _LAZYGIT_TOGGLE()
-    lazygit:toggle()
-end
-
-local lazydocker = Terminal:new({ cmd = 'lazydocker', hidden = true })
-
-function _LAZYDOCKER_TOGGLE()
-    lazydocker:toggle()
-end
 
 return {
     {
         'akinsho/toggleterm.nvim',
+        event = "VeryLazy",
         opts = {
             size = 20,
             open_mapping = [[<c-x>]],
@@ -49,5 +35,23 @@ return {
                 },
             },
         },
+        config = function(opts)
+vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
+
+local Terminal = require('toggleterm.terminal').Terminal
+local lazygit =
+    Terminal:new({ cmd = 'lazygit', hidden = true, direction = 'float' })
+
+function _LAZYGIT_TOGGLE()
+    lazygit:toggle()
+end
+
+local lazydocker = Terminal:new({ cmd = 'lazydocker', hidden = true })
+
+function _LAZYDOCKER_TOGGLE()
+    lazydocker:toggle()
+end
+        end
+
     },
 }

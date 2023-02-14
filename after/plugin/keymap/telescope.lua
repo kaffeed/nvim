@@ -1,4 +1,4 @@
-local Remap = require('core.keymap')
+local Remap = require('keymap')
 local nnoremap = Remap.nnoremap
 
 nnoremap('<Space>ff', require('telescope.builtin').find_files)

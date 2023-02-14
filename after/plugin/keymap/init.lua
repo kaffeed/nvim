@@ -1,4 +1,4 @@
-local Remap = require('core.keymap')
+local Remap = require('keymap')
 
 local nnoremap = Remap.nnoremap
 
@@ -35,10 +35,5 @@ nnoremap('n', 'nzz')
 nnoremap('N', 'Nzz')
 
 nnoremap('<leader>gg', ':G<CR>', opts)
---
--- SymbolsOutline
--- nnoemap('<leader>cs', ':SymbolsOutline<CR>', opts)
---
 
-nnoremap('<leader>tp', ':PomodoroStart<CR>', opts)
-nnoremap('<leader>tz', require('core.util').select_zen_mode, opts)
+nnoremap('<leader>tz', require('config.util').select_zen_mode, opts)

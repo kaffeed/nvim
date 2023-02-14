@@ -1,20 +1,15 @@
 return {
-{
+  {
     'nvim-lualine/lualine.nvim',
     dependencies = {
       'kyazdani42/nvim-web-devicons', -- optional, for file icons
     'SmiteshP/nvim-navic',
 
     },
+    event = "VeryLazy",
     config = function(_,_)
       local navic = require('nvim-navic')
-      local pomodoro = require('pomodoro').statusline
       require('lualine').setup({
-        sections = {
-          lualine_c = {
-            pomodoro,
-          },
-        },
         options = {
           theme = 'catppuccin',
         },
@@ -34,5 +29,4 @@ return {
       })
     end,
   }
-    {},
 }
