@@ -19,35 +19,6 @@ return {
         event = 'BufReadPre',
     },
 
-    {
-        'tpope/vim-fugitive',
-        event = 'VeryLazy',
-        cmd = {
-            'G',
-            'Git',
-            'Gdiffsplit',
-            'Gread',
-            'Gwrite',
-            'Ggrep',
-            'GMove',
-            'GDelete',
-            'GBrowse',
-            'GRemove',
-            'GRename',
-            'Glgrep',
-            'Gedit',
-        },
-        ft = { 'fugitive' },
-    },
-
-    {
-        'sindrets/diffview.nvim',
-        event = 'VeryLazy',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-        },
-    },
-
     { 'rcarriga/nvim-notify', event = 'VeryLazy', config = true },
     {
         'lukas-reineke/indent-blankline.nvim',
@@ -68,13 +39,6 @@ return {
         'simrat39/symbols-outline.nvim',
         event = 'VeryLazy',
         config = true,
-    },
-
-    {
-        'lewis6991/gitsigns.nvim',
-        config = function()
-            require('gitsigns').setup()
-        end,
     },
 
     { 'windwp/nvim-autopairs', config = true, event = 'VeryLazy' },
