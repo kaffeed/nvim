@@ -3,4 +3,5 @@ return {
     omnisharp = require('plugins.lsp.server-configuration.omnisharp'),
     dockerls = {},
     angularls = require('plugins.lsp.server-configuration.angularls'),
+    lemminx = require('plugins.lsp.server-configuration.lemminx'),
 }
