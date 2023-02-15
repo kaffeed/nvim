@@ -34,6 +34,9 @@ return {
             osv = function(_, _)
                 require('plugins.dap.lua').setup()
             end,
+            csharp = function(_, _)
+                require('plugins.dap.csharp').setup()
+            end,
         },
     },
     config = function(plugin, opts)

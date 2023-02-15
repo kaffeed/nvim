@@ -19,8 +19,7 @@ return {
                 end,
                 desc = 'Previous ToDo',
             },
-            { '<leader>tt', '<cmd>TodoTrouble<cr>', desc = 'ToDo (Trouble)' },
-            { '<leader>tT', '<cmd>TodoTelescope<cr>', desc = 'ToDo' },
+            { '<leader>tt', '<cmd>TodoTelescope<cr>', desc = 'List TODOs' },
         },
     },
 }
