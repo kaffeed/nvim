@@ -1,6 +1,6 @@
 return {
-    lua_ls = require('lua.plugins.lsp.server-configuration.lua-ls'),
-    omnisharp = require('lua.plugins.lsp.server-configuration.omnisharp'),
+    lua_ls = require('plugins.lsp.server-configuration.lua-ls'),
+    omnisharp = require('plugins.lsp.server-configuration.omnisharp'),
     dockerls = {},
-    angularls = require('lua.plugins.lsp.server-configuration.angularls'),
+    angularls = require('plugins.lsp.server-configuration.angularls'),
 }

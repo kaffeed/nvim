@@ -21,7 +21,7 @@ return {
             'hrsh7th/cmp-nvim-lsp-signature-help',
         },
         opts = {
-            servers = require('lua.plugins.lsp.server-configuration'),
+            servers = require('plugins.lsp.server-configuration'),
             setup = {
                 omnisharp = function(_, _)
                     local lsp_utils = require('plugins.lsp.utils')
