@@ -76,7 +76,6 @@ return {
                 end,
                 desc = 'Search help',
             },
-            -- { '<C-p>', function() require('telescope.builtin').commands() end, desc = "Commands"  },
             {
                 '<C-y>',
                 function()
@@ -98,6 +97,7 @@ return {
                             ['<c-t>'] = require('trouble.providers.telescope').open_with_trouble,
                         },
                     },
+                    file_ignore_patterns = { 'node_modules' },
                 },
                 extensions = {
                     fzf = {

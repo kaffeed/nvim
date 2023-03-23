@@ -1,19 +1,27 @@
 return {
+    -- TODO: configure keys for bracketed
     {
-        'echasnovski/mini.move',
-        opts = {},
-        keys = { '<M-h>', '<M-l>', '<M-j>', '<M-k>' },
-        config = function(_, opts)
-            require('mini.move').setup(opts)
-        end,
+        'echasnovski/mini.bracketed',
+        event = 'VeryLazy',
     },
     {
         'echasnovski/mini.bufremove',
-    -- stylua: ignore
-    keys = {
-      { "<leader>bd", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-      { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
-    },
+        keys = {
+            {
+                '<leader>bd',
+                function()
+                    require('mini.bufremove').delete(0, false)
+                end,
+                desc = 'Delete Buffer',
+            },
+            {
+                '<leader>bD',
+                function()
+                    require('mini.bufremove').delete(0, true)
+                end,
+                desc = 'Delete Buffer (Force)',
+            },
+        },
     },
     {
         'echasnovski/mini.animate',
