@@ -148,6 +148,12 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+local is_windows = vim.fn.has("win64") or vim.fn.has("win32") or vim.fn.has("win16")
+
+if is_windows then
+vim.opt.shellslash = true
+end
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
