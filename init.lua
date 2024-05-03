@@ -157,6 +157,8 @@ if is_windows then
   vim.opt.shadafile = 'NONE'
   -- vim.opt.shellslash = true
 end
+-- Set term gui colors for tmux
+vim.o.termguicolors = true
 
 vim.filetype.add { extension = { templ = 'templ' } }
 
