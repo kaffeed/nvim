@@ -148,11 +148,17 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- local is_windows = vim.fn.has("win64") or vim.fn.has("win32") or vim.fn.has("win16")
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 
--- if is_windows then
--- vim.opt.shellslash = true
--- end
+local is_windows = vim.fn.has 'win64' or vim.fn.has 'win32' or vim.fn.has 'win16'
+
+if is_windows then
+  vim.opt.shadafile = 'NONE'
+  -- vim.opt.shellslash = true
+end
+
+vim.filetype.add { extension = { templ = 'templ' } }
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -263,7 +269,6 @@ require('lazy').setup {
         delete = { text = '_' },
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
-      },
     },
   },
 
@@ -551,6 +556,12 @@ require('lazy').setup {
         -- clangd = {},
         -- gopls = {},
         omnisharp = {},
+        html = {
+          filetypes = { 'html', 'templ' },
+        },
+        -- htmx = {
+        --   filetypes = { 'html', 'templ' },
+        -- },
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -786,7 +797,7 @@ require('lazy').setup {
 
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'c_sharp', 'angular', 'typescript' },
+        ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'c_sharp', 'angular', 'typescript', 'templ' },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
