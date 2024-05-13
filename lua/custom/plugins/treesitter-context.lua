@@ -1,1 +1,4 @@
-return { 'nvim-treesitter/nvim-treesitter-context' }
+return {
+  { 'nvim-treesitter/nvim-treesitter-context' },
+  { 'JoosepAlviste/nvim-ts-context-commentstring' },
+}
