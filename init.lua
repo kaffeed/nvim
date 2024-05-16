@@ -155,7 +155,14 @@ local is_windows = vim.fn.has 'win64' or vim.fn.has 'win32' or vim.fn.has 'win16
 
 if is_windows then
   vim.opt.shadafile = 'NONE'
-  -- vim.opt.shellslash = true
+  vim.opt.shell = 'pwsh'
+  vim.opt.shellcmdflag =
+    '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+
+  vim.opt.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  vim.opt.shellquote = ''
+  vim.opt.shellxquote = ''
 end
 -- Set term gui colors for tmux
 vim.o.termguicolors = true
@@ -466,6 +473,7 @@ require('lazy').setup {
         --    That is to say, every time a new file is opened that is associated with
         --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
         --    function will be executed to configure the current buffer
+        --
         vim.api.nvim_create_autocmd('LspAttach', {
           group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
           callback = function(event)
