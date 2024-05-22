@@ -527,6 +527,9 @@ require('lazy').setup {
             -- WARN: This is not Goto Definition, this is Goto Declaration.
             --  For example, in C this would take you to the header
             map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+            map('<leader>ti', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            end, '[T]oggle [I]nlayhints')
 
             -- The following two autocommands are used to highlight references of the
             -- word under your cursor when your cursor rests there for a little while.
@@ -567,7 +570,26 @@ require('lazy').setup {
         local servers = {
           -- clangd = {},
           -- gopls = {},
-          omnisharp = {},
+          omnisharp = {
+            settings = {
+              RoslynExtensionsOptions = {
+                InlayHintsOptions = {
+                  EnableForParameters = true,
+                  ForLiteralParameters = true,
+                  ForIndexerParameters = true,
+                  ForObjectCreationParameters = true,
+                  ForOtherParameters = true,
+                  SuppressForParametersThatDifferOnlyBySuffix = false,
+                  SuppressForParametersThatMatchMethodIntent = false,
+                  SuppressForParametersThatMatchArgumentName = false,
+                  EnableForTypes = true,
+                  ForImplicitVariableTypes = true,
+                  ForLambdaParameterTypes = true,
+                  ForImplicitObjectCreatio = true,
+                },
+              },
+            },
+          },
           html = {
             filetypes = { 'html', 'templ' },
           },
@@ -605,6 +627,9 @@ require('lazy').setup {
                 },
                 completion = {
                   callSnippet = 'Replace',
+                },
+                hint = {
+                  enable = true,
                 },
                 -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
                 -- diagnostics = { disable = { 'missing-fields' } },
@@ -757,22 +782,22 @@ require('lazy').setup {
         }
       end,
     },
-    -- { -- You can easily change to a different colorscheme.
-    --   -- Change the name of the colorscheme plugin below, and then
-    --   -- change the command in the config to whatever the name of that colorscheme is
-    --   --
-    --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
-    --   'folke/tokyonight.nvim',
-    --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    --   priority = 1000, -- make sure to load this before all the other start plugins
-    --   config = function()
-    --     -- Load the colorscheme here
-    --     vim.cmd.colorscheme 'tokyonight-night'
-    --
-    --     -- You can configure highlights by doing something like
-    --     vim.cmd.hi 'Comment gui=none'
-    --   end,
-    -- },
+    { -- You can easily change to a different colorscheme.
+      -- Change the name of the colorscheme plugin below, and then
+      -- change the command in the config to whatever the name of that colorscheme is
+      --
+      -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
+      'folke/tokyonight.nvim',
+      lazy = false, -- make sure we load this during startup if it is your main colorscheme
+      priority = 1000, -- make sure to load this before all the other start plugins
+      config = function()
+        -- Load the colorscheme here
+        vim.cmd.colorscheme 'tokyonight-night'
+
+        -- You can configure highlights by doing something like
+        vim.cmd.hi 'Comment gui=none'
+      end,
+    },
 
     -- Highlight todo, notes, etc in comments
     { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
