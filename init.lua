@@ -576,7 +576,15 @@ require('lazy').setup {
           --    https://github.com/pmizio/typescript-tools.nvim
           --
           -- But for many setups, the LSP (`tsserver`) will work just fine
-          tsserver = {},
+          tsserver = {
+            init_options = {
+              preferences = {
+                -- other preferences...
+                importModuleSpecifierPreference = 'non-relative',
+                importModuleSpecifierEnding = 'minimal',
+              },
+            },
+          },
           --
 
           lua_ls = {
