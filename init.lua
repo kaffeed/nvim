@@ -323,104 +323,77 @@ require('lazy').setup {
     --
     -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
-    { -- Fuzzy Finder (files, lsp, etc)
-      'nvim-telescope/telescope.nvim',
+    {
+      'ibhagwan/fzf-lua',
       event = 'VimEnter',
-      branch = '0.1.x',
-      dependencies = {
-        'nvim-lua/plenary.nvim',
-        { -- If encountering errors, see telescope-fzf-native README for install instructions
-          'nvim-telescope/telescope-fzf-native.nvim',
+      opts = function(_, _)
+        local actions = require 'fzf-lua.actions'
 
-          -- `build` is used to run some command when the plugin is installed/updated.
-          -- This is only run then, not every time Neovim starts up.
-          build = 'make',
-
-          -- `cond` is a condition used to determine whether this plugin should be
-          -- installed and loaded.
-          cond = function()
-            return vim.fn.executable 'make' == 1
-          end,
-        },
-        { 'nvim-telescope/telescope-ui-select.nvim' },
-        { 'benfowler/telescope-luasnip.nvim' },
-
-        -- Useful for getting pretty icons, but requires special font.
-        --  If you already have a Nerd Font, or terminal set up with fallback fonts
-        --  you can enable this
-        -- { 'nvim-tree/nvim-web-devicons' }
-      },
-      config = function()
-        -- Telescope is a fuzzy finder that comes with a lot of different things that
-        -- it can fuzzy find! It's more than just a "file finder", it can search
-        -- many different aspects of Neovim, your workspace, LSP, and more!
-        --
-        -- The easiest way to use telescope, is to start by doing something like:
-        --  :Telescope help_tags
-        --
-        -- After running this command, a window will open up and you're able to
-        -- type in the prompt window. You'll see a list of help_tags options and
-        -- a corresponding preview of the help.
-        --
-        -- Two important keymaps to use while in telescope are:
-        --  - Insert mode: <c-/>
-        --  - Normal mode: ?
-        --
-        -- This opens a window that shows you all of the keymaps for the current
-        -- telescope picker. This is really useful to discover what Telescope can
-        -- do as well as how to actually do it!
-
-        -- [[ Configure Telescope ]]
-        -- See `:help telescope` and `:help telescope.setup()`
-        require('telescope').setup {
-          -- You can put your default mappings / updates / etc. in here
-          --  All the info you're looking for is in `:help telescope.setup()`
-          --
-          -- defaults = {
-          --   mappings = {
-          --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-          --   },
-          -- },
-          -- pickers = {}
-          extensions = {
-            ['ui-select'] = {
-              require('telescope.themes').get_dropdown(),
+        return {
+          oldfiles = {
+            -- In Telescope, wenn ich <leader>fr verwendet habe, wurden alte Puffer geladen.
+            -- fzf lua macht dasselbe, aber standardmäßig werden in der aktuellen
+            -- Sitzung besuchte Puffer nicht einbezogen. Ich verwende <leader>fr ständig, um
+            -- zu Puffern zurückzuwechseln, in denen ich gerade war. Wenn Ihnen dies von Telescope gefehlt hat,
+            -- probieren Sie es aus.
+            include_current_session = true,
+          },
+          previewers = {
+            builtin = {
+              -- fzf-lua ist sehr schnell, aber es hatte wirklich Probleme, ein paar Dateien
+              -- in einem Repo in der Vorschau anzuzeigen. Diese Dateien waren sehr große JavaScript-Dateien (1 MB, minimiert, alle in einer einzigen Zeile).
+              -- Es stellte sich heraus, dass Treesitter Probleme beim Parsen der Dateien hatte.
+              -- Mit dieser Änderung fügt die Vorschau keine Syntaxhervorhebung für Dateien hinzu, die größer als 100 KB sind
+              -- (Ja, ich weiß, dass man keine 100 KB großen minimierten Dateien in der Quellcodeverwaltung haben sollte.)
+              syntax_limit_b = 1024 * 100, -- 100KB
+            },
+          },
+          grep = {
+            -- Eine Sache, die mir von Telescope gefehlt hat, war die Möglichkeit, live_grep zu verwenden und
+            -- einen Filter auf die Dateinamen anzuwenden.
+            -- Bsp.: Finde alle Vorkommen von "enable", aber nur im Verzeichnis "plugins".
+            -- Mit dieser Änderung kann ich in live_grep ein ähnliches Verhalten erzielen.
+            -- Bsp.: > enable --*/plugins/*
+            -- Ich finde das immer noch etwas umständlich. Es gibt wahrscheinlich eine bessere Möglichkeit, dies zu tun.
+            rg_glob = true, -- Glob-Parsing aktivieren
+            glob_flag = '--iglob', -- Groß-/Kleinschreibung unempfindliche Globs
+            glob_separator = '%s%-%-', -- Muster für den Abfrage-Separator (Lua): ' --'
+            actions = {
+              ['ctrl-q'] = {
+                fn = actions.file_edit_or_qf,
+                prefix = 'select-all+',
+              },
             },
           },
         }
+      end,
+      config = function(_, opts)
+        local fzflua = require 'fzf-lua'
 
-        -- Enable telescope extensions, if they are installed
-        pcall(require('telescope').load_extension, 'fzf')
-        pcall(require('telescope').load_extension, 'ui-select')
-        pcall(require('telescope').load_extension, 'luasnip')
-
-        -- See `:help telescope.builtin`
-        local builtin = require 'telescope.builtin'
-        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-        vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-        vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-        vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-        vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-        vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = '[S]earch [P]roject' })
-        vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-        vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+        vim.keymap.set('n', '<leader>sh', fzflua.help_tags, { desc = '[S]earch [H]elp' })
+        vim.keymap.set('n', '<leader>sk', fzflua.keymaps, { desc = '[S]earch [K]eymaps' })
+        vim.keymap.set('n', '<leader>sf', fzflua.files, { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>sw', fzflua.grep_cword, { desc = '[S]earch current [W]ord' })
+        vim.keymap.set('n', '<leader>sg', fzflua.live_grep, { desc = '[S]earch by [G]rep' })
+        vim.keymap.set('n', '<leader>sd', fzflua.diagnostics_document, { desc = '[S]earch [D]iagnostics' })
+        vim.keymap.set('n', '<leader>sr', fzflua.resume, { desc = '[S]earch [R]esume' })
+        vim.keymap.set('n', '<leader>sp', fzflua.grep_project, { desc = '[S]earch [P]roject' })
+        vim.keymap.set('n', '<leader>s.', fzflua.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+        vim.keymap.set('n', '<leader><leader>', fzflua.buffers, { desc = '[ ] Find existing buffers' })
 
         -- Slightly advanced example of overriding default behavior and theme
-        vim.keymap.set('n', '<leader>/', function()
-          -- You can pass additional configuration to telescope to change theme, layout, etc.
-          builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-            winblend = 10,
-            previewer = false,
-          })
-        end, { desc = '[/] Fuzzily search in current buffer' })
+        -- vim.keymap.set('n', '<leader>/', function()
+        --   -- You can pass additional configuration to telescope to change theme, layout, etc.
+        --   builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        --     winblend = 10,
+        --     previewer = false,
+        --   })
+        -- end, { desc = '[/] Fuzzily search in current buffer' })
 
         -- Also possible to pass additional configuration options.
         --  See `:help telescope.builtin.live_grep()` for information about particular keys
         vim.keymap.set('n', '<leader>s/', function()
-          builtin.live_grep {
+          fzflua.live_grep {
             grep_open_files = true,
             prompt_title = 'Live Grep in Open Files',
           }
@@ -428,10 +401,122 @@ require('lazy').setup {
 
         -- Shortcut for searching your neovim configuration files
         vim.keymap.set('n', '<leader>sn', function()
-          builtin.find_files { cwd = vim.fn.stdpath 'config' }
+          fzflua.find_files { cwd = vim.fn.stdpath 'config' }
         end, { desc = '[S]earch [N]eovim files' })
+
+        fzflua.setup { opts }
       end,
     },
+
+    -- { -- Fuzzy Finder (files, lsp, etc)
+    --   'nvim-telescope/telescope.nvim',
+    --   event = 'VimEnter',
+    --   branch = '0.1.x',
+    --   dependencies = {
+    --     'nvim-lua/plenary.nvim',
+    --     { -- If encountering errors, see telescope-fzf-native README for install instructions
+    --       'nvim-telescope/telescope-fzf-native.nvim',
+    --
+    --       -- `build` is used to run some command when the plugin is installed/updated.
+    --       -- This is only run then, not every time Neovim starts up.
+    --       build = 'make',
+    --
+    --       -- `cond` is a condition used to determine whether this plugin should be
+    --       -- installed and loaded.
+    --       cond = function()
+    --         return vim.fn.executable 'make' == 1
+    --       end,
+    --     },
+    --     { 'nvim-telescope/telescope-ui-select.nvim' },
+    --     { 'benfowler/telescope-luasnip.nvim' },
+    --
+    --     -- Useful for getting pretty icons, but requires special font.
+    --     --  If you already have a Nerd Font, or terminal set up with fallback fonts
+    --     --  you can enable this
+    --     -- { 'nvim-tree/nvim-web-devicons' }
+    --   },
+    --   config = function()
+    --     -- Telescope is a fuzzy finder that comes with a lot of different things that
+    --     -- it can fuzzy find! It's more than just a "file finder", it can search
+    --     -- many different aspects of Neovim, your workspace, LSP, and more!
+    --     --
+    --     -- The easiest way to use telescope, is to start by doing something like:
+    --     --  :Telescope help_tags
+    --     --
+    --     -- After running this command, a window will open up and you're able to
+    --     -- type in the prompt window. You'll see a list of help_tags options and
+    --     -- a corresponding preview of the help.
+    --     --
+    --     -- Two important keymaps to use while in telescope are:
+    --     --  - Insert mode: <c-/>
+    --     --  - Normal mode: ?
+    --     --
+    --     -- This opens a window that shows you all of the keymaps for the current
+    --     -- telescope picker. This is really useful to discover what Telescope can
+    --     -- do as well as how to actually do it!
+    --
+    --     -- [[ Configure Telescope ]]
+    --     -- See `:help telescope` and `:help telescope.setup()`
+    --     require('telescope').setup {
+    --       -- You can put your default mappings / updates / etc. in here
+    --       --  All the info you're looking for is in `:help telescope.setup()`
+    --       --
+    --       -- defaults = {
+    --       --   mappings = {
+    --       --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+    --       --   },
+    --       -- },
+    --       -- pickers = {}
+    --       extensions = {
+    --         ['ui-select'] = {
+    --           require('telescope.themes').get_dropdown(),
+    --         },
+    --       },
+    --     }
+    --
+    --     -- Enable telescope extensions, if they are installed
+    --     pcall(require('telescope').load_extension, 'fzf')
+    --     pcall(require('telescope').load_extension, 'ui-select')
+    --     pcall(require('telescope').load_extension, 'luasnip')
+    --
+    --     -- See `:help telescope.builtin`
+    --     local builtin = require 'telescope.builtin'
+    --     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+    --     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+    --     vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+    --     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+    --     vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+    --     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+    --     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+    --     vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+    --     vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = '[S]earch [P]roject' })
+    --     vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+    --     vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+    --
+    --     -- Slightly advanced example of overriding default behavior and theme
+    --     vim.keymap.set('n', '<leader>/', function()
+    --       -- You can pass additional configuration to telescope to change theme, layout, etc.
+    --       builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    --         winblend = 10,
+    --         previewer = false,
+    --       })
+    --     end, { desc = '[/] Fuzzily search in current buffer' })
+    --
+    --     -- Also possible to pass additional configuration options.
+    --     --  See `:help telescope.builtin.live_grep()` for information about particular keys
+    --     vim.keymap.set('n', '<leader>s/', function()
+    --       builtin.live_grep {
+    --         grep_open_files = true,
+    --         prompt_title = 'Live Grep in Open Files',
+    --       }
+    --     end, { desc = '[S]earch [/] in Open Files' })
+    --
+    --     -- Shortcut for searching your neovim configuration files
+    --     vim.keymap.set('n', '<leader>sn', function()
+    --       builtin.find_files { cwd = vim.fn.stdpath 'config' }
+    --     end, { desc = '[S]earch [N]eovim files' })
+    --   end,
+    -- },
 
     { -- LSP Configuration & Plugins
       'neovim/nvim-lspconfig',
@@ -530,6 +615,11 @@ require('lazy').setup {
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+        vim.lsp.config('*', {
+          capabilities = capabilities,
+          root_markers = '.git',
+        })
+
         -- Enable the following language servers
         --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
         --
@@ -542,26 +632,7 @@ require('lazy').setup {
         local servers = {
           -- clangd = {},
           -- gopls = {},
-          omnisharp = {
-            settings = {
-              RoslynExtensionsOptions = {
-                InlayHintsOptions = {
-                  EnableForParameters = true,
-                  ForLiteralParameters = true,
-                  ForIndexerParameters = true,
-                  ForObjectCreationParameters = true,
-                  ForOtherParameters = true,
-                  SuppressForParametersThatDifferOnlyBySuffix = false,
-                  SuppressForParametersThatMatchMethodIntent = false,
-                  SuppressForParametersThatMatchArgumentName = false,
-                  EnableForTypes = true,
-                  ForImplicitVariableTypes = true,
-                  ForLambdaParameterTypes = true,
-                  ForImplicitObjectCreatio = true,
-                },
-              },
-            },
-          },
+          omnisharp = {},
           html = {
             filetypes = { 'html', 'templ' },
           },
@@ -576,15 +647,6 @@ require('lazy').setup {
           --    https://github.com/pmizio/typescript-tools.nvim
           --
           -- But for many setups, the LSP (`tsserver`) will work just fine
-          tsserver = {
-            init_options = {
-              preferences = {
-                -- other preferences...
-                importModuleSpecifierPreference = 'non-relative',
-                importModuleSpecifierEnding = 'minimal',
-              },
-            },
-          },
           --
 
           lua_ls = {
@@ -633,19 +695,6 @@ require('lazy').setup {
           'stylua', -- Used to format lua code
         })
         require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
-        require('mason-lspconfig').setup {
-          handlers = {
-            function(server_name)
-              local server = servers[server_name] or {}
-              -- This handles overriding only values explicitly passed
-              -- by the server configuration above. Useful when disabling
-              -- certain features of an LSP (for example, turning off formatting for tsserver)
-              server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-              require('lspconfig')[server_name].setup(server)
-            end,
-          },
-        }
       end,
     },
 
