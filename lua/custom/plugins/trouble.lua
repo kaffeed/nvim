@@ -24,11 +24,6 @@ return {
     end, {
       desc = '[T]rouble [d]ocument diagnostics',
     })
-    vim.keymap.set('n', '<leader>tq', function()
-      require('trouble').toggle 'quickfix'
-    end, {
-      desc = '[T]rouble [q]uickfixes',
-    })
     vim.keymap.set('n', '<leader>tl', function()
       require('trouble').toggle 'loclist'
     end, {
