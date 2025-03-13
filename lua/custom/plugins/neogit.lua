@@ -4,9 +4,8 @@ return {
     'nvim-lua/plenary.nvim', -- required
     'sindrets/diffview.nvim', -- optional - Diff integration
 
-    -- Only one of these is needed, not both.
+    -- Only need Telescope now, removed fzf-lua
     'nvim-telescope/telescope.nvim', -- optional
-    'ibhagwan/fzf-lua', -- optional
   },
   config = function(_, opts)
     require('neogit').setup(opts)

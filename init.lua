@@ -110,15 +110,6 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 -- use Y for yank line to end
 vim.keymap.set('n', 'Y', 'y$')
 
@@ -206,77 +197,88 @@ require('lazy').setup {
     -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
     {
-      'ibhagwan/fzf-lua',
-      event = 'VimEnter',
-      opts = function(_, _)
-        local actions = require 'fzf-lua.actions'
+      'nvim-telescope/telescope.nvim',
+      branch = '0.1.x',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+        {
+          'nvim-telescope/telescope-fzf-native.nvim',
+          build = 'make',
+          cond = function()
+            return vim.fn.executable 'make' == 1
+          end,
+        },
+        'nvim-tree/nvim-web-devicons',
+      },
+      config = function()
+        local telescope = require 'telescope'
+        local actions = require 'telescope.actions'
 
-        return {
-          oldfiles = {
-            include_current_session = true,
-          },
-          winopts = {
-            preview = {
-              layout = 'vertical',
-            },
-          },
-          previewers = {
-            builtin = {
-              -- fzf-lua ist sehr schnell, aber es hatte wirklich Probleme, ein paar Dateien
-              -- in einem Repo in der Vorschau anzuzeigen. Diese Dateien waren sehr große JavaScript-Dateien (1 MB, minimiert, alle in einer einzigen Zeile).
-              -- Es stellte sich heraus, dass Treesitter Probleme beim Parsen der Dateien hatte.
-              -- Mit dieser Änderung fügt die Vorschau keine Syntaxhervorhebung für Dateien hinzu, die größer als 100 KB sind
-              -- (Ja, ich weiß, dass man keine 100 KB großen minimierten Dateien in der Quellcodeverwaltung haben sollte.)
-              syntax_limit_b = 1024 * 100, -- 100KB
-            },
-          },
-          grep = {
-            rg_glob = true, -- Glob-Parsing aktivieren
-            glob_flag = '--iglob', -- Groß-/Kleinschreibung unempfindliche Globs
-            glob_separator = '%s%-%-', -- Muster für den Abfrage-Separator (Lua): ' --'
-            actions = {
-              ['ctrl-q'] = {
-                fn = actions.file_edit_or_qf,
-                prefix = 'select-all+',
+        telescope.setup {
+          defaults = {
+            mappings = {
+              i = {
+                ['<C-q>'] = actions.send_to_qflist + actions.open_qflist,
               },
+            },
+            layout_strategy = 'vertical',
+            layout_config = {
+              preview_height = 0.6,
+            },
+            path_display = { 'truncate' },
+          },
+          pickers = {
+            oldfiles = {
+              include_current_session = true,
+            },
+            find_files = {
+              hidden = true,
+            },
+            live_grep = {
+              additional_args = function()
+                return { '--hidden' }
+              end,
+            },
+          },
+          extensions = {
+            fzf = {
+              fuzzy = true,
+              override_generic_sorter = true,
+              override_file_sorter = true,
+              case_mode = 'smart_case',
             },
           },
         }
-      end,
-      config = function(_, opts)
-        local fzflua = require 'fzf-lua'
 
-        vim.keymap.set('n', '<leader>sh', fzflua.help_tags, { desc = '[S]earch [H]elp' })
-        vim.keymap.set('n', '<leader>sk', fzflua.keymaps, { desc = '[S]earch [K]eymaps' })
-        vim.keymap.set('n', '<leader>sf', fzflua.files, { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>sw', fzflua.grep_cword, { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('n', '<leader>sg', fzflua.live_grep, { desc = '[S]earch by [G]rep' })
-        vim.keymap.set('n', '<leader>sd', fzflua.diagnostics_document, { desc = '[S]earch [D]iagnostics' })
-        vim.keymap.set('n', '<leader>sr', fzflua.resume, { desc = '[S]earch [R]esume' })
-        vim.keymap.set('n', '<leader>sp', fzflua.grep_project, { desc = '[S]earch [P]roject' })
-        vim.keymap.set('n', '<leader>s.', fzflua.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-        vim.keymap.set('n', '<leader><leader>', fzflua.buffers, { desc = '[ ] Find existing buffers' })
+        -- Load telescope extensions
+        pcall(telescope.load_extension, 'fzf')
 
-        -- Slightly advanced example of overriding default behavior and theme
-        vim.keymap.set('n', '<leader>/', function()
-          fzflua.grep_curbuf {}
-        end, { desc = '[/] Fuzzily search in current buffer' })
+        -- Keymaps
+        local builtin = require 'telescope.builtin'
+        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+        vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+        vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+        vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+        vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+        vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = '[S]earch [P]roject' })
+        vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+        vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
-        -- Also possible to pass additional configuration options.
+        -- Additional keymaps to match your fzf-lua configuration
+        vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
+
         vim.keymap.set('n', '<leader>s/', function()
-          fzflua.live_grep {
+          builtin.live_grep {
             grep_open_files = true,
             prompt_title = 'Live Grep in Open Files',
           }
         end, { desc = '[S]earch [/] in Open Files' })
 
-        -- Shortcut for searching your neovim configuration files
         vim.keymap.set('n', '<leader>sn', function()
-          fzflua.files { cwd = vim.fn.stdpath 'config' }
+          builtin.find_files { cwd = vim.fn.stdpath 'config' }
         end, { desc = '[S]earch [N]eovim files' })
-
-        fzflua.register_ui_select()
-        fzflua.setup { opts }
       end,
     },
     -- LSP Plugins
@@ -330,32 +332,24 @@ require('lazy').setup {
             end
 
             -- Jump to the definition of the word under your cursor.
-            --  This is where a variable was first declared, or where a function is defined, etc.
-            --  To jump back, press <C-T>.
-            map('gd', require('fzf-lua').lsp_definitions, '[G]oto [D]efinition')
+            map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
             -- Find references for the word under your cursor.
-            map('gr', require('fzf-lua').lsp_references, '[G]oto [R]eferences')
+            map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
             -- Jump to the implementation of the word under your cursor.
-            --  Useful when your language has ways of declaring types without an actual implementation.
-            map('gI', require('fzf-lua').lsp_implementations, '[G]oto [I]mplementation')
+            map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
 
             -- Jump to the type of the word under your cursor.
-            --  Useful when you're not sure what type a variable is and you want to see
-            --  the definition of its *type*, not where it was *defined*.
-            map('<leader>D', require('fzf-lua').lsp_typedefs, 'Type [D]efinition')
+            map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
 
             -- Fuzzy find all the symbols in your current document.
-            --  Symbols are things like variables, functions, types, etc.
-            map('<leader>ds', require('fzf-lua').lsp_document_symbols, '[D]ocument [S]ymbols')
+            map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
 
             -- Fuzzy find all the symbols in your current workspace
-            --  Similar to document symbols, except searches over your whole project.
-            map('<leader>ws', require('fzf-lua').lsp_workspace_symbols, '[W]orkspace [S]ymbols')
+            map('<leader>ws', require('telescope.builtin').lsp_workspace_symbols, '[W]orkspace [S]ymbols')
 
             -- Rename the variable under your cursor.
-            --  Most Language Servers support renaming across files, etc.
             map('crn', vim.lsp.buf.rename, '[R]e[n]ame')
 
             -- Execute a code action, usually your cursor needs to be on top of an error
@@ -363,7 +357,6 @@ require('lazy').setup {
             map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
             -- WARN: This is not Goto Definition, this is Goto Declaration.
-            --  For example, in C this would take you to the header.
             map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
             -- The following two autocommands are used to highlight references of the
