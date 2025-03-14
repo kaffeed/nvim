@@ -198,19 +198,21 @@ require('lazy').setup {
 
     { -- Useful plugin to show you pending keybinds.
       'folke/which-key.nvim',
-      event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-      config = function() -- This is the function that runs, AFTER loading
-        require('which-key').setup()
+      event = 'VeryLazy', -- Load which-key lazily after a delay
+      config = function()
+        -- Setup which-key
+        local wk = require 'which-key'
+        wk.setup()
 
-        -- Document existing key chains
-        require('which-key').register {
-          ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-          ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-          ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-          ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-          ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-          ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-          ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+        -- Add key groups using the new add method
+        wk.add {
+          { '<leader>c', group = '[C]ode' },
+          { '<leader>d', group = '[D]ocument' },
+          { '<leader>g', group = '[G]it' },
+          { '<leader>r', group = '[R]ename' },
+          { '<leader>s', group = '[S]earch' },
+          { '<leader>w', group = '[W]orkspace' },
+          { '<leader>t', group = '[T]oggle' },
         }
       end,
     },
@@ -401,7 +403,7 @@ require('lazy').setup {
             --
             -- When you move your cursor, the highlights will be cleared (the second autocommand).
             local client = vim.lsp.get_client_by_id(event.data.client_id)
-            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
               local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
               vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                 buffer = event.buf,
@@ -428,7 +430,7 @@ require('lazy').setup {
             -- code, if the language server you are using supports them
             --
             -- This may be unwanted, since they displace some of your code
-            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
               map('<leader>th', function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
               end, '[T]oggle Inlay [H]ints')
