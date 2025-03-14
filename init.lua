@@ -11,9 +11,6 @@ vim.g.maplocalleader = ' '
 
 -- Make line numbers default
 vim.opt.number = true
--- You can also add relative line numbers, for help with jumping.
---  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -221,13 +218,15 @@ require('lazy').setup {
                 ['<C-q>'] = actions.send_to_qflist + actions.open_qflist,
               },
             },
-            layout_strategy = 'vertical',
-            layout_config = {
-              preview_height = 0.6,
-            },
+            -- layout_config = {
+            --   preview_height = 0.6,
+            -- },
             path_display = { 'truncate' },
           },
           pickers = {
+            defaults = {
+              theme = 'ivy',
+            },
             oldfiles = {
               include_current_session = true,
             },
@@ -253,31 +252,36 @@ require('lazy').setup {
         -- Load telescope extensions
         pcall(telescope.load_extension, 'fzf')
 
+        local function theme_wrapper(telescope_command)
+          return function()
+            telescope_command(require('telescope.themes').get_ivy())
+          end
+        end
         -- Keymaps
         local builtin = require 'telescope.builtin'
-        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-        vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-        vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-        vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-        vim.keymap.set('n', '<leader>sp', builtin.git_files, { desc = '[S]earch [P]roject' })
-        vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-        vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+        vim.keymap.set('n', '<leader>sh', theme_wrapper(builtin.help_tags), { desc = '[S]earch [H]elp' })
+        vim.keymap.set('n', '<leader>sk', theme_wrapper(builtin.keymaps), { desc = '[S]earch [K]eymaps' })
+        vim.keymap.set('n', '<leader>sf', theme_wrapper(builtin.git_files), { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>sw', theme_wrapper(builtin.grep_string), { desc = '[S]earch current [W]ord' })
+        vim.keymap.set('n', '<leader>sg', theme_wrapper(builtin.live_grep), { desc = '[S]earch by [G]rep' })
+        vim.keymap.set('n', '<leader>sd', theme_wrapper(builtin.diagnostics), { desc = '[S]earch [D]iagnostics' })
+        vim.keymap.set('n', '<leader>sr', theme_wrapper(builtin.resume), { desc = '[S]earch [R]esume' })
+        vim.keymap.set('n', '<leader>sp', theme_wrapper(builtin.git_files), { desc = '[S]earch [P]roject' })
+        vim.keymap.set('n', '<leader>s.', theme_wrapper(builtin.oldfiles), { desc = '[S]earch Recent Files ("." for repeat)' })
+        vim.keymap.set('n', '<leader><leader>', theme_wrapper(builtin.buffers), { desc = '[ ] Find existing buffers' })
 
         -- Additional keymaps to match your fzf-lua configuration
-        vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
+        vim.keymap.set('n', '<leader>/', theme_wrapper(builtin.current_buffer_fuzzy_find), { desc = '[/] Fuzzily search in current buffer' })
 
         vim.keymap.set('n', '<leader>s/', function()
-          builtin.live_grep {
+          theme_wrapper(builtin.live_grep {
             grep_open_files = true,
             prompt_title = 'Live Grep in Open Files',
-          }
+          })
         end, { desc = '[S]earch [/] in Open Files' })
 
         vim.keymap.set('n', '<leader>sn', function()
-          builtin.find_files { cwd = vim.fn.stdpath 'config' }
+          theme_wrapper(builtin.find_files { cwd = vim.fn.stdpath 'config' })
         end, { desc = '[S]earch [N]eovim files' })
       end,
     },
