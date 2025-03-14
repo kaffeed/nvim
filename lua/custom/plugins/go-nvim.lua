@@ -18,14 +18,7 @@ return {
     --    vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>F", "<cmd>lua vim.lsp.buf.formatting()<CR>", {noremap=true, silent=true})
     -- end
     -- to setup a table of codelens
-    diagnostic = { -- set diagnostic to false to disable vim.diagnostic.config setup,
-      -- true: default nvim setup
-      hdlr = false, -- hook lsp diag handler and send diag to quickfix
-      underline = true,
-      virtual_text = { spacing = 2, prefix = '' }, -- virtual text setup
-      signs = { '', '', '', '' }, -- set to true to use default signs, an array of 4 to specify custom signs
-      update_in_insert = false,
-    },
+    diagnostic = true,
     lsp_inlay_hints = {
       enable = true,
       -- hint style, set to 'eol' for end-of-line hints, 'inlay' for inline hints
@@ -66,7 +59,7 @@ return {
     -- false: do not use keymap in go/dap.lua.  you must define your own.
     -- Windows: Use Visual Studio keymap
     dap_debug_gui = {}, -- bool|table put your dap-ui setup here set to false to disable
-    dap_debug_vt = { enabled_commands = true, all_frames = true }, -- bool|table put your dap-virtual-text setup here set to false to disable
+    -- dap_debug_vt = { enabled_commands = true, all_frames = true }, -- bool|table put your dap-virtual-text setup here set to false to disable
 
     dap_port = 38697, -- can be set to a number, if set to -1 go.nvim will pick up a random port
     dap_timeout = 15, --  see dap option initialize_timeout_sec = 15,
