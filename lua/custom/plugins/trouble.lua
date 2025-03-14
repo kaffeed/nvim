@@ -19,11 +19,15 @@ return {
     end, {
       desc = '[T]rouble [w]orkspace diagnostics',
     })
-    vim.keymap.set('n', '<leader>td', function()
+
+    vim.keymap.set('n', '<leader>dd', function()
       require('trouble').toggle 'document_diagnostics'
-    end, {
-      desc = '[T]rouble [d]ocument diagnostics',
-    })
+    end, { desc = 'Toggle [D]ocument [D]iagnostics Panel' })
+
+    vim.keymap.set('n', '<leader>dw', function()
+      require('trouble').toggle 'workspace_diagnostics'
+    end, { desc = 'Toggle [D]iagnostics [W]orkspace Panel' })
+
     vim.keymap.set('n', '<leader>tl', function()
       require('trouble').toggle 'loclist'
     end, {

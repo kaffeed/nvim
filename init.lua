@@ -40,6 +40,37 @@ vim.opt.signcolumn = 'yes'
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 
+vim.diagnostic.config {
+  virtual_text = false, -- Disable inline diagnostics
+  signs = true, -- Keep the signs in the gutter
+  underline = true, -- Still underline issues
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    focusable = false,
+    style = 'minimal',
+    border = 'rounded',
+    source = false,
+    header = '',
+    prefix = '',
+  },
+}
+
+-- Show diagnostic popup on cursor hover
+vim.api.nvim_create_autocmd('CursorHold', {
+  callback = function()
+    local opts = {
+      focusable = false,
+      close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+      border = 'rounded',
+      source = 'always',
+      prefix = ' ',
+      scope = 'cursor',
+    }
+    vim.diagnostic.open_float(nil, opts)
+  end,
+})
+
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -257,6 +288,7 @@ require('lazy').setup {
             telescope_command(require('telescope.themes').get_ivy())
           end
         end
+
         -- Keymaps
         local builtin = require 'telescope.builtin'
         vim.keymap.set('n', '<leader>sh', theme_wrapper(builtin.help_tags), { desc = '[S]earch [H]elp' })
