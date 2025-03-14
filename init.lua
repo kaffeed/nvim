@@ -307,15 +307,14 @@ require('lazy').setup {
         vim.keymap.set('n', '<leader>/', theme_wrapper(builtin.current_buffer_fuzzy_find), { desc = '[/] Fuzzily search in current buffer' })
 
         vim.keymap.set('n', '<leader>s/', function()
-          theme_wrapper(builtin.live_grep {
+          builtin.live_grep {
             grep_open_files = true,
             prompt_title = 'Live Grep in Open Files',
-            theme = 'ivy',
-          })
+          }
         end, { desc = '[S]earch [/] in Open Files' })
 
         vim.keymap.set('n', '<leader>sn', function()
-          theme_wrapper(builtin.find_files { cwd = vim.fn.stdpath 'config', theme = 'ivy' })
+          builtin.find_files { cwd = vim.fn.stdpath 'config', theme = 'ivy' }
         end, { desc = '[S]earch [N]eovim files' })
       end,
     },
@@ -403,7 +402,7 @@ require('lazy').setup {
             --
             -- When you move your cursor, the highlights will be cleared (the second autocommand).
             local client = vim.lsp.get_client_by_id(event.data.client_id)
-            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
               local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
               vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                 buffer = event.buf,
@@ -430,7 +429,7 @@ require('lazy').setup {
             -- code, if the language server you are using supports them
             --
             -- This may be unwanted, since they displace some of your code
-            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+            if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
               map('<leader>th', function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
               end, '[T]oggle Inlay [H]ints')
