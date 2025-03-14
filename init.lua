@@ -53,20 +53,21 @@ vim.diagnostic.config {
   },
 }
 
--- Show diagnostic popup on cursor hover
-vim.api.nvim_create_autocmd('CursorHold', {
-  callback = function()
-    local opts = {
-      focusable = false,
-      close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
-      border = 'rounded',
-      source = 'always',
-      prefix = ' ',
-      scope = 'cursor',
-    }
-    vim.diagnostic.open_float(nil, opts)
-  end,
-})
+-- Create a function to show diagnostic popup
+local function show_diagnostic_popup()
+  local opts = {
+    focusable = false,
+    close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+    border = 'rounded',
+    source = 'always',
+    prefix = ' ',
+    scope = 'cursor',
+  }
+  vim.diagnostic.open_float(nil, opts)
+end
+
+-- Map to a keyboard shortcut (<leader>d) to show diagnostic popup
+vim.keymap.set('n', '<leader>df', show_diagnostic_popup, { desc = 'Show [D]iagnostic [f]loating popup' })
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -532,7 +533,7 @@ require('lazy').setup {
 
         require('mason-lspconfig').setup {
           automatic_installation = true,
-          ensure_installed = false,
+          ensure_installed = {},
           handlers = {
             function(server_name)
               local server = servers[server_name] or {}
