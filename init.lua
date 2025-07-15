@@ -67,7 +67,7 @@ local function show_diagnostic_popup()
 end
 
 -- Map to a keyboard shortcut (<leader>d) to show diagnostic popup
-vim.keymap.set('n', '<leader>df', show_diagnostic_popup, { desc = 'Show [D]iagnostic [f]loating popup' })
+vim.keymap.set('n', '<leader>dtu', ':%s/\r//g<CR>', { desc = 'Remove [D]iagnostic [t]railing [u]nwanted characters' })
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -236,6 +236,7 @@ require('lazy').setup {
             return vim.fn.executable 'make' == 1
           end,
         },
+        'nvim-telescope/telescope-ui-select.nvim',
         'nvim-tree/nvim-web-devicons',
       },
       config = function()
@@ -249,9 +250,9 @@ require('lazy').setup {
                 ['<C-q>'] = actions.send_to_qflist + actions.open_qflist,
               },
             },
-            -- layout_config = {
-            --   preview_height = 0.6,
-            -- },
+            layout_config = {
+              height = 0.5,
+            },
             path_display = { 'truncate' },
           },
           pickers = {
@@ -259,18 +260,34 @@ require('lazy').setup {
               theme = 'ivy',
             },
             oldfiles = {
+              theme = 'ivy',
               include_current_session = true,
             },
             find_files = {
+              theme = 'ivy',
               hidden = true,
             },
+            git_files = {
+              theme = 'ivy',
+              recurse_submodules = true,
+            },
             live_grep = {
+              theme = 'ivy',
               additional_args = function()
                 return { '--hidden' }
               end,
             },
+            diagnostics = {
+              theme = 'ivy',
+            },
+            buffers = {
+              theme = 'ivy',
+            },
           },
           extensions = {
+            ['ui-select'] = {
+              require('telescope.themes').get_cursor {},
+            },
             fzf = {
               fuzzy = true,
               override_generic_sorter = true,
@@ -282,29 +299,24 @@ require('lazy').setup {
 
         -- Load telescope extensions
         pcall(telescope.load_extension, 'fzf')
-
-        local function theme_wrapper(telescope_command)
-          return function()
-            telescope_command(require('telescope.themes').get_ivy())
-          end
-        end
+        pcall(telescope.load_extension, 'ui-select')
 
         -- Keymaps
         local builtin = require 'telescope.builtin'
 
-        vim.keymap.set('n', '<leader>sh', theme_wrapper(builtin.help_tags), { desc = '[S]earch [H]elp' })
-        vim.keymap.set('n', '<leader>sk', theme_wrapper(builtin.keymaps), { desc = '[S]earch [K]eymaps' })
-        vim.keymap.set('n', '<leader>sf', theme_wrapper(builtin.git_files), { desc = '[S]earch [F]iles' })
-        vim.keymap.set('n', '<leader>sw', theme_wrapper(builtin.grep_string), { desc = '[S]earch current [W]ord' })
-        vim.keymap.set('n', '<leader>sg', theme_wrapper(builtin.live_grep), { desc = '[S]earch by [G]rep' })
-        vim.keymap.set('n', '<leader>sd', theme_wrapper(builtin.diagnostics), { desc = '[S]earch [D]iagnostics' })
-        vim.keymap.set('n', '<leader>sr', theme_wrapper(builtin.resume), { desc = '[S]earch [R]esume' })
-        vim.keymap.set('n', '<leader>sp', theme_wrapper(builtin.git_files), { desc = '[S]earch [P]roject' })
-        vim.keymap.set('n', '<leader>s.', theme_wrapper(builtin.oldfiles), { desc = '[S]earch Recent Files ("." for repeat)' })
-        vim.keymap.set('n', '<leader><leader>', theme_wrapper(builtin.buffers), { desc = '[ ] Find existing buffers' })
+        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+        vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+        vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>ff', builtin.git_files, { desc = '[S]earch [F]iles' })
+        vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+        vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+        vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+        vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+        vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
         -- Additional keymaps to match your fzf-lua configuration
-        vim.keymap.set('n', '<leader>/', theme_wrapper(builtin.current_buffer_fuzzy_find), { desc = '[/] Fuzzily search in current buffer' })
+        vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
 
         vim.keymap.set('n', '<leader>s/', function()
           builtin.live_grep {

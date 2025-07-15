@@ -20,15 +20,6 @@ local function setup_orgmode()
     filetype = 'org',
   }
 
-  -- Load treesitter with org parser
-  require('nvim-treesitter.configs').setup {
-    highlight = {
-      enable = true,
-      additional_vim_regex_highlighting = { 'org' },
-    },
-    ensure_installed = { 'org' },
-  }
-
   -- Configure orgmode
   orgmode.setup {
     -- Files & Default locations (similar to Doom Emacs)
@@ -200,35 +191,35 @@ local function setup_orgmode()
 
     -- UI configuration for a more Doom-like experience
     ui = {
-      menu = {
-        handler = function(data)
-          -- Create a more Doom Emacs like menu experience
-          local options = {}
-          local options_by_label = {}
-
-          for _, item in ipairs(data.items) do
-            if item.key and item.label:lower() ~= 'quit' then
-              local label = string.format('%s: %s', item.key, item.label)
-              table.insert(options, label)
-              options_by_label[label] = item
-            end
-          end
-
-          local handler = function(choice)
-            if not choice then
-              return
-            end
-            local option = options_by_label[choice]
-            if option and option.action then
-              option.action()
-            end
-          end
-
-          vim.ui.select(options, {
-            prompt = data.prompt or 'Select an option:',
-          }, handler)
-        end,
-      },
+      -- menu = {
+      --   handler = function(data)
+      --     -- Create a more Doom Emacs like menu experience
+      --     local options = {}
+      --     local options_by_label = {}
+      --
+      --     for _, item in ipairs(data.items) do
+      --       if item.key and item.label:lower() ~= 'quit' then
+      --         local label = string.format('%s: %s', item.key, item.label)
+      --         table.insert(options, label)
+      --         options_by_label[label] = item
+      --       end
+      --     end
+      --
+      --     local handler = function(choice)
+      --       if not choice then
+      --         return
+      --       end
+      --       local option = options_by_label[choice]
+      --       if option and option.action then
+      --         option.action()
+      --       end
+      --     end
+      --
+      --     vim.ui.select(options, {
+      --       prompt = data.prompt or 'Select an option:',
+      --     }, handler)
+      --   end,
+      -- },
 
       -- Modern fold indicator
       folds = {
